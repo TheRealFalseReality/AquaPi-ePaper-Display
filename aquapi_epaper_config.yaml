@@ -280,3 +280,14 @@ display:
             it.printf(it.get_width() / 2, y_start, font, TextAlign::TOP_CENTER, "%s", line.c_str());
         }
       }
+
+text_sensor:
+  - platform: template
+    name: " Version"
+    id: version
+    icon: mdi:update
+    lambda: |-
+      return {"${app_version}"};
+    entity_category: "diagnostic"
+    web_server:
+      sorting_group_id: sorting_group_diagnostic
