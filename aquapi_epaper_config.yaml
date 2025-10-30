@@ -2,10 +2,10 @@ substitutions:
   # names
   name: "aquapi_epaper_display"
   friendly_name: "AquaPi ePaper Display"
-  comment: "Firmware for ESP32 ePaper display showing AquaPi marine aquarium data"
+  comment: "Firmware for ESP32 ePaper display showing AquaPi & aquarium data"
   project_name: "TheRealFalseReality.AquaPi-ePaper-Display"
   import: "false"
-  app_version: "0.0.6"
+  app_version: "0.0.7"
 
 dashboard_import:
   package_import_url: github://TheRealFalseReality/AquaPi-ePaper-Display/aquapi_epaper_config.yaml@main
@@ -21,6 +21,11 @@ esphome:
   project:
     name: "${project_name}"
     version: "${app_version}"
+  on_boot:
+    priority: -100.0 
+    then:
+      - logger.log: "Device booted. Preventing deep sleep until WiFi connects."
+      - deep_sleep.prevent: deep_sleep_1
 
 esp32:
   board: esp32-c3-devkitm-1
@@ -37,20 +42,15 @@ captive_portal:
           
 improv_serial:
 
-on_boot:
-  priority: -100.0 
-  then:
-    - logger.log: "Device booted. Preventing deep sleep until WiFi connects."
-    - deep_sleep.prevent: deep_sleep_1
-
 wifi:
   ap:
   on_connect:
     then:
-      - deep_sleep.allow: deep_sleep_1
       - lambda: |-
           id(wifi_status) = 1;
       - logger.log: "WiFi is connected! Allowing deep sleep."
+      - delay: 1min
+      - deep_sleep.allow: deep_sleep_1
   on_disconnect:
     then:
       - deep_sleep.prevent: deep_sleep_1
