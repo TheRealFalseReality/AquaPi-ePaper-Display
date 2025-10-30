@@ -37,6 +37,12 @@ captive_portal:
           
 improv_serial:
 
+on_boot:
+  priority: -100.0 
+  then:
+    - logger.log: "Device booted. Preventing deep sleep until WiFi connects."
+    - deep_sleep.prevent: deep_sleep_1
+
 wifi:
   ap:
   on_connect:
@@ -44,11 +50,13 @@ wifi:
       - deep_sleep.allow: deep_sleep_1
       - lambda: |-
           id(wifi_status) = 1;
+      - logger.log: "WiFi is connected! Allowing deep sleep."
   on_disconnect:
     then:
       - deep_sleep.prevent: deep_sleep_1
       - lambda: |-
           id(wifi_status) = 0;
+      - logger.log: "WiFi is disconnected! Not allowing deep sleep."
 
 globals:
   - id: wifi_status
