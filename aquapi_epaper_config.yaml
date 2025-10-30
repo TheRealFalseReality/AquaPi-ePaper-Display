@@ -5,7 +5,7 @@ substitutions:
   comment: "Firmware for ESP32 ePaper display showing AquaPi marine aquarium data"
   project_name: "TheRealFalseReality.AquaPi-ePaper-Display"
   import: "false"
-  app_version: "0.0.5"
+  app_version: "0.0.6"
 
 dashboard_import:
   package_import_url: github://TheRealFalseReality/AquaPi-ePaper-Display/aquapi_epaper_config.yaml@main
@@ -41,10 +41,12 @@ wifi:
   ap:
   on_connect:
     then:
+      - deep_sleep.allow: deep_sleep_1
       - lambda: |-
           id(wifi_status) = 1;
   on_disconnect:
     then:
+      - deep_sleep.prevent: deep_sleep_1
       - lambda: |-
           id(wifi_status) = 0;
 
