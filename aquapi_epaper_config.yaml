@@ -5,7 +5,7 @@ substitutions:
   comment: "Firmware for ESP32 ePaper display showing AquaPi marine aquarium data"
   project_name: "TheRealFalseReality.AquaPi-ePaper-Display"
   import: "false"
-  app_version: "0.0.2"
+  app_version: "0.0.4"
 
 dashboard_import:
   package_import_url: github://TheRealFalseReality/AquaPi-ePaper-Display/aquapi_epaper_config.yaml@main
@@ -108,6 +108,15 @@ text_sensor:
   - platform: homeassistant
     id: marine_water_level
     entity_id: sensor.aquapi_f2c1e4_water_level
+  - platform: template
+    name: " Version"
+    id: version
+    icon: mdi:update
+    lambda: |-
+      return {"${app_version}"};
+    entity_category: "diagnostic"
+    web_server:
+      sorting_group_id: sorting_group_diagnostic
 
 font:
   - file: "fonts/Montserrat-Black.ttf"
@@ -281,13 +290,3 @@ display:
         }
       }
 
-text_sensor:
-  - platform: template
-    name: " Version"
-    id: version
-    icon: mdi:update
-    lambda: |-
-      return {"${app_version}"};
-    entity_category: "diagnostic"
-    web_server:
-      sorting_group_id: sorting_group_diagnostic
