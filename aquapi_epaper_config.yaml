@@ -47,7 +47,6 @@ wifi:
     then:
       - lambda: |-
           id(wifi_status) = 0;
-      - deep_sleep.prevent: deep_sleep_1
 
 globals:
   - id: wifi_status
@@ -140,7 +139,15 @@ font:
 spi:
   clk_pin: GPIO8
   mosi_pin: GPIO10
-  
+
+script:
+  - id: keep_awake
+    then:
+      - lambda: |-
+          if (id(wifi_status) == 0) {
+            id(deep_sleep_1).set_sleep_duration(900000);
+          } 
+          
 display:
   - platform: waveshare_epaper
     id: my_display
