@@ -46,6 +46,7 @@ wifi:
     then:
       - lambda: |-
           id(wifi_status) = 0;
+      - deep_sleep.prevent: deep_sleep_1
 
 globals:
   - id: wifi_status
