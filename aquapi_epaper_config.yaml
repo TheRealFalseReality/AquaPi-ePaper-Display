@@ -115,9 +115,7 @@ text_sensor:
     lambda: |-
       return {"${app_version}"};
     entity_category: "diagnostic"
-    web_server:
-      sorting_group_id: sorting_group_diagnostic
-
+    
 font:
   - file: "fonts/Montserrat-Black.ttf"
     id: web_font
