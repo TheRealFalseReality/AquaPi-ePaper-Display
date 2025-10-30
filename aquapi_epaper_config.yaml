@@ -5,7 +5,7 @@ substitutions:
   comment: "Firmware for ESP32 ePaper display showing AquaPi marine aquarium data"
   project_name: "TheRealFalseReality.AquaPi-ePaper-Display"
   import: "false"
-  app_version: "0.0.4"
+  app_version: "0.0.5"
 
 dashboard_import:
   package_import_url: github://TheRealFalseReality/AquaPi-ePaper-Display/aquapi_epaper_config.yaml@main
