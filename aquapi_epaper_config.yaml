@@ -243,14 +243,14 @@ display:
         it.filled_rectangle(x + r, y, w - 2 * r, thickness); it.filled_rectangle(x + r, y + h - thickness, w - 2 * r, thickness); it.filled_rectangle(x, y + r, thickness, h - 2 * r); it.filled_rectangle(x + w - thickness, y + r, thickness, h - 2 * r); it.filled_circle(x + r, y + r, r); it.filled_circle(x + w - r, y + r, r); it.filled_circle(x + r, y + h - r, r); it.filled_circle(x + w - r, y + h - r, r); it.filled_rectangle(x + thickness, y + thickness, w - 2 * thickness, h - 2 * thickness, COLOR_OFF);
         it.printf(x + w - 15, y + 10, id(sensor_font), TextAlign::TOP_RIGHT, "Dissolved O2");
         it.printf(x + 45, y + 55, id(material_sharp_icons), TextAlign::CENTER, "\uf870");
-        it.printf(x + 140, y + 55, id(data_font), TextAlign::CENTER, "%.1f", id(marine_do).state);
+        it.printf(x + 140, y + 55, id(data_font), TextAlign::CENTER, "%.0f", id(marine_do).state);
         it.printf(x + w - 15, y + h - 10, id(web_font), TextAlign::BOTTOM_RIGHT, "%%");
         
         x = col3_x; y = row2_y; // Power
         it.filled_rectangle(x + r, y, w - 2 * r, thickness); it.filled_rectangle(x + r, y + h - thickness, w - 2 * r, thickness); it.filled_rectangle(x, y + r, thickness, h - 2 * r); it.filled_rectangle(x + w - thickness, y + r, thickness, h - 2 * r); it.filled_circle(x + r, y + r, r); it.filled_circle(x + w - r, y + r, r); it.filled_circle(x + r, y + h - r, r); it.filled_circle(x + w - r, y + h - r, r); it.filled_rectangle(x + thickness, y + thickness, w - 2 * thickness, h - 2 * thickness, COLOR_OFF);
         it.printf(x + w - 15, y + 10, id(sensor_font), TextAlign::TOP_RIGHT, "Power");
         it.printf(x + 45, y + 55, id(material_sharp_icons), TextAlign::CENTER, "\ue63c");
-        it.printf(x + 140, y + 55, id(data_font), TextAlign::CENTER, "%.1f", id(marine_power).state);
+        it.printf(x + 140, y + 55, id(data_font), TextAlign::CENTER, "%.0f", id(marine_power).state);
         it.printf(x + w - 15, y + h - 10, id(web_font), TextAlign::BOTTOM_RIGHT, "W");
         
         // ========== FOOTER WITH MANUAL TEXT WRAPPING ==========
