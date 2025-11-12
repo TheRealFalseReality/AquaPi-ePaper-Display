@@ -8,15 +8,15 @@ substitutions:
   app_version: "0.0.7"
   
   # Home Assistant sensor entity IDs
-  sensor_temp_entity: "sensor.aquapi_f2c1e4_temperature"
-  sensor_ph_entity: "sensor.aquapi_f2c1e4_ph"
-  sensor_do_entity: "sensor.aquapi_f2c1e4_dissolved_oxygen_saturation"
-  sensor_orp_entity: "sensor.aquapi_fd047c_orp"
-  sensor_salinity_entity: "sensor.salinity_temp"
-  sensor_power_entity: "sensor.aquarium_power"
-  sensor_age_entity: "sensor.aquarium_age"
-  sensor_analysis_entity: "sensor.overall_analysis"
-  sensor_water_level_entity: "sensor.aquapi_f2c1e4_water_level"
+  sensor_temp_entity: "sensor.my_temperature_entity"
+  sensor_ph_entity: "sensor.my_ph_entity"
+  sensor_do_entity: "sensor.my_dissolved_oxygen_saturation_entity"
+  sensor_orp_entity: "sensor.my_orp_entity"
+  sensor_salinity_entity: "sensor.my_salinity_entity"
+  sensor_power_entity: "sensor.my_aquarium_power_entity"
+  sensor_age_entity: "sensor.my_aquarium_age_entity"
+  sensor_analysis_entity: "sensor.my_overall_analysis_entity"
+  sensor_water_level_entity: "sensor.my_water_level_entity"
 
 dashboard_import:
   package_import_url: github://TheRealFalseReality/AquaPi-ePaper-Display/aquapi_epaper_config.yaml@main
