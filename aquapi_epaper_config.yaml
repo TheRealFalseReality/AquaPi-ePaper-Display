@@ -95,39 +95,39 @@ time:
 
 sensor:
   - platform: homeassistant
-    id: marine_temp
+    id: sensor_temp
     entity_id: "${sensor_marine_temp_entity}"
     internal: true
   - platform: homeassistant
-    id: marine_ph
+    id: sensor_ph
     entity_id: "${sensor_marine_ph_entity}"
     internal: true
   - platform: homeassistant
-    id: marine_do
+    id: sensor_do
     entity_id: "${sensor_marine_do_entity}"
     internal: true
   - platform: homeassistant
-    id: marine_orp
+    id: sensor_orp
     entity_id: "${sensor_marine_orp_entity}"
     internal: true
   - platform: homeassistant
-    id: marine_salinity
+    id: sensor_salinity
     entity_id: "${sensor_marine_salinity_entity}"
     internal: true
   - platform: homeassistant
-    id: marine_power
+    id: sensor_power
     entity_id: "${sensor_marine_power_entity}"
     internal: true
 
 text_sensor:
   - platform: homeassistant
-    id: marine_age
+    id: sensor_age
     entity_id: "${sensor_marine_age_entity}"
   - platform: homeassistant
-    id: marine_analysis
+    id: sensor_analysis
     entity_id: "${sensor_marine_analysis_entity}"
   - platform: homeassistant
-    id: marine_water_level
+    id: sensor_water_level
     entity_id: "${sensor_marine_water_level_entity}"
   - platform: template
     name: " Version"
@@ -195,7 +195,7 @@ display:
         // ========== TOP HEADER ==========
         it.printf(20, 15, id(data_font), "Marine Aquarium");
 
-        std::string age_str = id(marine_age).state;
+        std::string age_str = id(sensor_age).state;
         bool age_is_set = (age_str != "sensor.aquarium_age_entity") && !age_str.empty() && (age_str != "unknown") && (age_str != "unavailable");
         if (age_is_set) {
           age_str = age_str + " old |";
@@ -208,7 +208,7 @@ display:
         it.get_text_bounds(22, 45, age_str.c_str(), id(sensor_font), TextAlign::TOP_LEFT, &x1, &y1, &w1, &h1);
         it.printf(22 + w1 + 10, 45, id(material_sharp_icons_small), TextAlign::TOP_LEFT, "\uf6d6");
         
-        std::string water_level_str = id(marine_water_level).state;
+        std::string water_level_str = id(sensor_water_level).state;
         bool water_level_is_set = (water_level_str != "sensor.water_level_entity") && !water_level_str.empty() && (water_level_str != "unknown") && (water_level_str != "unavailable");
         if (water_level_is_set) {
           it.printf(22 + w1 + 40, 45, id(sensor_font), TextAlign::TOP_LEFT, "%s", water_level_str.c_str());
@@ -240,8 +240,8 @@ display:
         it.filled_rectangle(x + r, y, w - 2 * r, thickness); it.filled_rectangle(x + r, y + h - thickness, w - 2 * r, thickness); it.filled_rectangle(x, y + r, thickness, h - 2 * r); it.filled_rectangle(x + w - thickness, y + r, thickness, h - 2 * r); it.filled_circle(x + r, y + r, r); it.filled_circle(x + w - r, y + r, r); it.filled_circle(x + r, y + h - r, r); it.filled_circle(x + w - r, y + h - r, r); it.filled_rectangle(x + thickness, y + thickness, w - 2 * thickness, h - 2 * thickness, COLOR_OFF);
         it.printf(x + w - 15, y + 10, id(sensor_font), TextAlign::TOP_RIGHT, "Temperature");
         it.printf(x + 45, y + 55, id(material_sharp_icons), TextAlign::CENTER, "\uf076");
-        if (!isnan(id(marine_temp).state) && id(marine_temp).state != 0.0) {
-          it.printf(x + 140, y + 55, id(data_font), TextAlign::CENTER, "%.1f", id(marine_temp).state);
+        if (!isnan(id(sensor_temp).state) && id(sensor_temp).state != 0.0) {
+          it.printf(x + 140, y + 55, id(data_font), TextAlign::CENTER, "%.1f", id(sensor_temp).state);
           it.printf(x + w - 15, y + h - 10, id(web_font), TextAlign::BOTTOM_RIGHT, "°F");
         } else {
           it.printf(x + 140, y + 55, id(data_font), TextAlign::CENTER, "Not Set");
@@ -251,8 +251,8 @@ display:
         it.filled_rectangle(x + r, y, w - 2 * r, thickness); it.filled_rectangle(x + r, y + h - thickness, w - 2 * r, thickness); it.filled_rectangle(x, y + r, thickness, h - 2 * r); it.filled_rectangle(x + w - thickness, y + r, thickness, h - 2 * r); it.filled_circle(x + r, y + r, r); it.filled_circle(x + w - r, y + r, r); it.filled_circle(x + r, y + h - r, r); it.filled_circle(x + w - r, y + h - r, r); it.filled_rectangle(x + thickness, y + thickness, w - 2 * thickness, h - 2 * thickness, COLOR_OFF);
         it.printf(x + w - 15, y + 10, id(sensor_font), TextAlign::TOP_RIGHT, "pH");
         it.printf(x + 45, y + 55, id(material_sharp_icons), TextAlign::CENTER, "\uf87a");
-        if (!isnan(id(marine_ph).state) && id(marine_ph).state != 0.0) {
-          it.printf(x + 140, y + 55, id(data_font), TextAlign::CENTER, "%.2f", id(marine_ph).state);
+        if (!isnan(id(sensor_ph).state) && id(sensor_ph).state != 0.0) {
+          it.printf(x + 140, y + 55, id(data_font), TextAlign::CENTER, "%.2f", id(sensor_ph).state);
         } else {
           it.printf(x + 140, y + 55, id(data_font), TextAlign::CENTER, "Not Set");
         }
@@ -261,8 +261,8 @@ display:
         it.filled_rectangle(x + r, y, w - 2 * r, thickness); it.filled_rectangle(x + r, y + h - thickness, w - 2 * r, thickness); it.filled_rectangle(x, y + r, thickness, h - 2 * r); it.filled_rectangle(x + w - thickness, y + r, thickness, h - 2 * r); it.filled_circle(x + r, y + r, r); it.filled_circle(x + w - r, y + r, r); it.filled_circle(x + r, y + h - r, r); it.filled_circle(x + w - r, y + h - r, r); it.filled_rectangle(x + thickness, y + thickness, w - 2 * thickness, h - 2 * thickness, COLOR_OFF);
         it.printf(x + w - 15, y + 10, id(sensor_font), TextAlign::TOP_RIGHT, "Salinity");
         it.printf(x + 45, y + 55, id(material_sharp_icons), TextAlign::CENTER, "\uf876");
-        if (!isnan(id(marine_salinity).state) && id(marine_salinity).state != 0.0) {
-          it.printf(x + 140, y + 55, id(data_font), TextAlign::CENTER, "%.1f", id(marine_salinity).state);
+        if (!isnan(id(sensor_salinity).state) && id(sensor_salinity).state != 0.0) {
+          it.printf(x + 140, y + 55, id(data_font), TextAlign::CENTER, "%.1f", id(sensor_salinity).state);
           it.printf(x + w - 15, y + h - 10, id(web_font), TextAlign::BOTTOM_RIGHT, "ppt");
         } else {
           it.printf(x + 140, y + 55, id(data_font), TextAlign::CENTER, "Not Set");
@@ -273,8 +273,8 @@ display:
         it.filled_rectangle(x + r, y, w - 2 * r, thickness); it.filled_rectangle(x + r, y + h - thickness, w - 2 * r, thickness); it.filled_rectangle(x, y + r, thickness, h - 2 * r); it.filled_rectangle(x + w - thickness, y + r, thickness, h - 2 * r); it.filled_circle(x + r, y + r, r); it.filled_circle(x + w - r, y + r, r); it.filled_circle(x + r, y + h - r, r); it.filled_circle(x + w - r, y + h - r, r); it.filled_rectangle(x + thickness, y + thickness, w - 2 * thickness, h - 2 * thickness, COLOR_OFF);
         it.printf(x + w - 15, y + 10, id(sensor_font), TextAlign::TOP_RIGHT, "ORP");
         it.printf(x + 45, y + 55, id(material_sharp_icons), TextAlign::CENTER, "\uf878");
-        if (!isnan(id(marine_orp).state) && id(marine_orp).state != 0.0) {
-          it.printf(x + 140, y + 55, id(data_font), TextAlign::CENTER, "%.0f", id(marine_orp).state);
+        if (!isnan(id(sensor_orp).state) && id(sensor_orp).state != 0.0) {
+          it.printf(x + 140, y + 55, id(data_font), TextAlign::CENTER, "%.0f", id(sensor_orp).state);
           it.printf(x + w - 15, y + h - 10, id(web_font), TextAlign::BOTTOM_RIGHT, "mV");
         } else {
           it.printf(x + 140, y + 55, id(data_font), TextAlign::CENTER, "Not Set");
@@ -284,8 +284,8 @@ display:
         it.filled_rectangle(x + r, y, w - 2 * r, thickness); it.filled_rectangle(x + r, y + h - thickness, w - 2 * r, thickness); it.filled_rectangle(x, y + r, thickness, h - 2 * r); it.filled_rectangle(x + w - thickness, y + r, thickness, h - 2 * r); it.filled_circle(x + r, y + r, r); it.filled_circle(x + w - r, y + r, r); it.filled_circle(x + r, y + h - r, r); it.filled_circle(x + w - r, y + h - r, r); it.filled_rectangle(x + thickness, y + thickness, w - 2 * thickness, h - 2 * thickness, COLOR_OFF);
         it.printf(x + w - 15, y + 10, id(sensor_font), TextAlign::TOP_RIGHT, "Dissolved O2");
         it.printf(x + 45, y + 55, id(material_sharp_icons), TextAlign::CENTER, "\uf870");
-        if (!isnan(id(marine_do).state) && id(marine_do).state != 0.0) {
-          it.printf(x + 140, y + 55, id(data_font), TextAlign::CENTER, "%.0f", id(marine_do).state);
+        if (!isnan(id(sensor_do).state) && id(sensor_do).state != 0.0) {
+          it.printf(x + 140, y + 55, id(data_font), TextAlign::CENTER, "%.0f", id(sensor_do).state);
           it.printf(x + w - 15, y + h - 10, id(web_font), TextAlign::BOTTOM_RIGHT, "%%");
         } else {
           it.printf(x + 140, y + 55, id(data_font), TextAlign::CENTER, "Not Set");
@@ -295,8 +295,8 @@ display:
         it.filled_rectangle(x + r, y, w - 2 * r, thickness); it.filled_rectangle(x + r, y + h - thickness, w - 2 * r, thickness); it.filled_rectangle(x, y + r, thickness, h - 2 * r); it.filled_rectangle(x + w - thickness, y + r, thickness, h - 2 * r); it.filled_circle(x + r, y + r, r); it.filled_circle(x + w - r, y + r, r); it.filled_circle(x + r, y + h - r, r); it.filled_circle(x + w - r, y + h - r, r); it.filled_rectangle(x + thickness, y + thickness, w - 2 * thickness, h - 2 * thickness, COLOR_OFF);
         it.printf(x + w - 15, y + 10, id(sensor_font), TextAlign::TOP_RIGHT, "Power");
         it.printf(x + 45, y + 55, id(material_sharp_icons), TextAlign::CENTER, "\ue63c");
-        if (!isnan(id(marine_power).state) && id(marine_power).state != 0.0) {
-          it.printf(x + 140, y + 55, id(data_font), TextAlign::CENTER, "%.0f", id(marine_power).state);
+        if (!isnan(id(sensor_power).state) && id(sensor_power).state != 0.0) {
+          it.printf(x + 140, y + 55, id(data_font), TextAlign::CENTER, "%.0f", id(sensor_power).state);
           it.printf(x + w - 15, y + h - 10, id(web_font), TextAlign::BOTTOM_RIGHT, "W");
         } else {
           it.printf(x + 140, y + 55, id(data_font), TextAlign::CENTER, "Not Set");
@@ -305,7 +305,7 @@ display:
         // ========== FOOTER WITH MANUAL TEXT WRAPPING ==========
         it.filled_rectangle(0, 330, it.get_width(), 2);
         
-        std::string text = id(marine_analysis).state;
+        std::string text = id(sensor_analysis).state;
         bool analysis_is_set = (text != "sensor.analysis_entity") && !text.empty() && (text != "unknown") && (text != "unavailable");
         if (!analysis_is_set) {
           text = "Analysis not configured";
