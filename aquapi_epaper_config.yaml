@@ -6,6 +6,17 @@ substitutions:
   project_name: "TheRealFalseReality.AquaPi-ePaper-Display"
   import: "false"
   app_version: "0.0.7"
+  
+  # Home Assistant sensor entity IDs
+  sensor_marine_temp_entity: "sensor.aquapi_f2c1e4_temperature"
+  sensor_marine_ph_entity: "sensor.aquapi_f2c1e4_ph"
+  sensor_marine_do_entity: "sensor.aquapi_f2c1e4_dissolved_oxygen_saturation"
+  sensor_marine_orp_entity: "sensor.aquapi_fd047c_orp"
+  sensor_marine_salinity_entity: "sensor.marine_salinity_temp"
+  sensor_marine_power_entity: "sensor.marine_aquarium_power"
+  sensor_marine_age_entity: "sensor.marine_aquarium_age"
+  sensor_marine_analysis_entity: "sensor.marine_overall_analysis"
+  sensor_marine_water_level_entity: "sensor.aquapi_f2c1e4_water_level"
 
 dashboard_import:
   package_import_url: github://TheRealFalseReality/AquaPi-ePaper-Display/aquapi_epaper_config.yaml@main
@@ -85,39 +96,39 @@ time:
 sensor:
   - platform: homeassistant
     id: marine_temp
-    entity_id: sensor.aquapi_f2c1e4_temperature
+    entity_id: "${sensor_marine_temp_entity}"
     internal: true
   - platform: homeassistant
     id: marine_ph
-    entity_id: sensor.aquapi_f2c1e4_ph
+    entity_id: "${sensor_marine_ph_entity}"
     internal: true
   - platform: homeassistant
     id: marine_do
-    entity_id: sensor.aquapi_f2c1e4_dissolved_oxygen_saturation
+    entity_id: "${sensor_marine_do_entity}"
     internal: true
   - platform: homeassistant
     id: marine_orp
-    entity_id: sensor.aquapi_fd047c_orp
+    entity_id: "${sensor_marine_orp_entity}"
     internal: true
   - platform: homeassistant
     id: marine_salinity
-    entity_id: sensor.marine_salinity_temp
+    entity_id: "${sensor_marine_salinity_entity}"
     internal: true
   - platform: homeassistant
     id: marine_power
-    entity_id: sensor.marine_aquarium_power
+    entity_id: "${sensor_marine_power_entity}"
     internal: true
 
 text_sensor:
   - platform: homeassistant
     id: marine_age
-    entity_id: sensor.marine_aquarium_age
+    entity_id: "${sensor_marine_age_entity}"
   - platform: homeassistant
     id: marine_analysis
-    entity_id: sensor.marine_overall_analysis
+    entity_id: "${sensor_marine_analysis_entity}"
   - platform: homeassistant
     id: marine_water_level
-    entity_id: sensor.aquapi_f2c1e4_water_level
+    entity_id: "${sensor_marine_water_level_entity}"
   - platform: template
     name: " Version"
     id: version
