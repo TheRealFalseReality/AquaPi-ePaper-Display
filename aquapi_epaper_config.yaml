@@ -1,5 +1,5 @@
 substitutions:
-  # names
+  # names and versions
   name: "aquapi_epaper_display"
   friendly_name: "AquaPi ePaper Display"
   comment: "Firmware for ESP32 ePaper display showing AquaPi & aquarium data"
@@ -7,16 +7,16 @@ substitutions:
   import: "false"
   app_version: "0.0.7"
   
-  # Home Assistant sensor entity IDs - Set these to your actual sensor entity IDs
-  sensor_temp_entity: "sensor.temperature_entity"
-  sensor_ph_entity: "sensor.ph_entity"
-  sensor_do_entity: "sensor.dissolved_oxygen_entity"
-  sensor_orp_entity: "sensor.orp_entity"
-  sensor_salinity_entity: "sensor.salinity_entity"
-  sensor_power_entity: "sensor.power_entity"
-  sensor_age_entity: "sensor.aquarium_age_entity"
-  sensor_analysis_entity: "sensor.analysis_entity"
-  sensor_water_level_entity: "sensor.water_level_entity"
+  # Home Assistant sensor entity IDs
+  sensor_temp_entity: "sensor.aquapi_f2c1e4_temperature"
+  sensor_ph_entity: "sensor.aquapi_f2c1e4_ph"
+  sensor_do_entity: "sensor.aquapi_f2c1e4_dissolved_oxygen_saturation"
+  sensor_orp_entity: "sensor.aquapi_fd047c_orp"
+  sensor_salinity_entity: "sensor.salinity_temp"
+  sensor_power_entity: "sensor.aquarium_power"
+  sensor_age_entity: "sensor.aquarium_age"
+  sensor_analysis_entity: "sensor.overall_analysis"
+  sensor_water_level_entity: "sensor.aquapi_f2c1e4_water_level"
 
 dashboard_import:
   package_import_url: github://TheRealFalseReality/AquaPi-ePaper-Display/aquapi_epaper_config.yaml@main
