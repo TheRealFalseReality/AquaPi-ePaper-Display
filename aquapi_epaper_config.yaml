@@ -8,15 +8,15 @@ substitutions:
   app_version: "0.0.7"
   
   # Home Assistant sensor entity IDs - Set these to your actual sensor entity IDs
-  sensor_marine_temp_entity: "sensor.temperature_entity"
-  sensor_marine_ph_entity: "sensor.ph_entity"
-  sensor_marine_do_entity: "sensor.dissolved_oxygen_entity"
-  sensor_marine_orp_entity: "sensor.orp_entity"
-  sensor_marine_salinity_entity: "sensor.salinity_entity"
-  sensor_marine_power_entity: "sensor.power_entity"
-  sensor_marine_age_entity: "sensor.aquarium_age_entity"
-  sensor_marine_analysis_entity: "sensor.analysis_entity"
-  sensor_marine_water_level_entity: "sensor.water_level_entity"
+  sensor_temp_entity: "sensor.temperature_entity"
+  sensor_ph_entity: "sensor.ph_entity"
+  sensor_do_entity: "sensor.dissolved_oxygen_entity"
+  sensor_orp_entity: "sensor.orp_entity"
+  sensor_salinity_entity: "sensor.salinity_entity"
+  sensor_power_entity: "sensor.power_entity"
+  sensor_age_entity: "sensor.aquarium_age_entity"
+  sensor_analysis_entity: "sensor.analysis_entity"
+  sensor_water_level_entity: "sensor.water_level_entity"
 
 dashboard_import:
   package_import_url: github://TheRealFalseReality/AquaPi-ePaper-Display/aquapi_epaper_config.yaml@main
@@ -96,39 +96,39 @@ time:
 sensor:
   - platform: homeassistant
     id: sensor_temp
-    entity_id: "${sensor_marine_temp_entity}"
+    entity_id: "${sensor_temp_entity}"
     internal: true
   - platform: homeassistant
     id: sensor_ph
-    entity_id: "${sensor_marine_ph_entity}"
+    entity_id: "${sensor_ph_entity}"
     internal: true
   - platform: homeassistant
     id: sensor_do
-    entity_id: "${sensor_marine_do_entity}"
+    entity_id: "${sensor_do_entity}"
     internal: true
   - platform: homeassistant
     id: sensor_orp
-    entity_id: "${sensor_marine_orp_entity}"
+    entity_id: "${sensor_orp_entity}"
     internal: true
   - platform: homeassistant
     id: sensor_salinity
-    entity_id: "${sensor_marine_salinity_entity}"
+    entity_id: "${sensor_salinity_entity}"
     internal: true
   - platform: homeassistant
     id: sensor_power
-    entity_id: "${sensor_marine_power_entity}"
+    entity_id: "${sensor_power_entity}"
     internal: true
 
 text_sensor:
   - platform: homeassistant
     id: sensor_age
-    entity_id: "${sensor_marine_age_entity}"
+    entity_id: "${sensor_age_entity}"
   - platform: homeassistant
     id: sensor_analysis
-    entity_id: "${sensor_marine_analysis_entity}"
+    entity_id: "${sensor_analysis_entity}"
   - platform: homeassistant
     id: sensor_water_level
-    entity_id: "${sensor_marine_water_level_entity}"
+    entity_id: "${sensor_water_level_entity}"
   - platform: template
     name: " Version"
     id: version

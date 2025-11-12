@@ -22,15 +22,15 @@ The default configuration uses generic placeholders that will display "Not Set" 
 
 ```yaml
 substitutions:
-  sensor_marine_temp_entity: "sensor.temperature_entity"
-  sensor_marine_ph_entity: "sensor.ph_entity"
-  sensor_marine_do_entity: "sensor.dissolved_oxygen_entity"
-  sensor_marine_orp_entity: "sensor.orp_entity"
-  sensor_marine_salinity_entity: "sensor.salinity_entity"
-  sensor_marine_power_entity: "sensor.power_entity"
-  sensor_marine_age_entity: "sensor.aquarium_age_entity"
-  sensor_marine_analysis_entity: "sensor.analysis_entity"
-  sensor_marine_water_level_entity: "sensor.water_level_entity"
+  sensor_temp_entity: "sensor.temperature_entity"
+  sensor_ph_entity: "sensor.ph_entity"
+  sensor_do_entity: "sensor.dissolved_oxygen_entity"
+  sensor_orp_entity: "sensor.orp_entity"
+  sensor_salinity_entity: "sensor.salinity_entity"
+  sensor_power_entity: "sensor.power_entity"
+  sensor_age_entity: "sensor.aquarium_age_entity"
+  sensor_analysis_entity: "sensor.analysis_entity"
+  sensor_water_level_entity: "sensor.water_level_entity"
 ```
 
 ### Configuring Your Sensors
@@ -43,15 +43,15 @@ packages:
 
 substitutions:
   # Replace these with your actual Home Assistant sensor entity IDs
-  sensor_marine_temp_entity: "sensor.my_aquarium_temperature"
-  sensor_marine_ph_entity: "sensor.my_aquarium_ph"
-  sensor_marine_do_entity: "sensor.my_dissolved_oxygen"
-  sensor_marine_orp_entity: "sensor.my_orp"
-  sensor_marine_salinity_entity: "sensor.my_salinity"
-  sensor_marine_power_entity: "sensor.my_aquarium_power"
-  sensor_marine_age_entity: "sensor.my_aquarium_age"
-  sensor_marine_analysis_entity: "sensor.my_overall_analysis"
-  sensor_marine_water_level_entity: "sensor.my_water_level"
+  sensor_temp_entity: "sensor.my_aquarium_temperature"
+  sensor_ph_entity: "sensor.my_aquarium_ph"
+  sensor_do_entity: "sensor.my_dissolved_oxygen"
+  sensor_orp_entity: "sensor.my_orp"
+  sensor_salinity_entity: "sensor.my_salinity"
+  sensor_power_entity: "sensor.my_aquarium_power"
+  sensor_age_entity: "sensor.my_aquarium_age"
+  sensor_analysis_entity: "sensor.my_overall_analysis"
+  sensor_water_level_entity: "sensor.my_water_level"
 ```
 
 **Note:** Any sensor that is not configured (left as default placeholder) will display "Not Set" on the ePaper display instead of a value and unit.
