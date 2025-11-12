@@ -8,15 +8,15 @@ substitutions:
   app_version: "0.0.7"
   
   # Home Assistant sensor entity IDs
-  sensor_temp_entity: "sensor.aquapi_f2c1e4_temperature"
-  sensor_ph_entity: "sensor.aquapi_f2c1e4_ph"
-  sensor_do_entity: "sensor.aquapi_f2c1e4_dissolved_oxygen_saturation"
-  sensor_orp_entity: "sensor.aquapi_fd047c_orp"
-  sensor_salinity_entity: "sensor.salinity_temp"
-  sensor_power_entity: "sensor.aquarium_power"
-  sensor_age_entity: "sensor.aquarium_age"
-  sensor_analysis_entity: "sensor.overall_analysis"
-  sensor_water_level_entity: "sensor.aquapi_f2c1e4_water_level"
+  sensor_temp_entity: "sensor.my_temperature_entity"
+  sensor_ph_entity: "sensor.my_ph_entity"
+  sensor_do_entity: "sensor.my_dissolved_oxygen_saturation_entity"
+  sensor_orp_entity: "sensor.my_orp_entity"
+  sensor_salinity_entity: "sensor.my_salinity_entity"
+  sensor_power_entity: "sensor.my_aquarium_power_entity"
+  sensor_age_entity: "sensor.my_aquarium_age_entity"
+  sensor_analysis_entity: "sensor.my_overall_analysis_entity"
+  sensor_water_level_entity: "sensor.my_water_level_entity"
 
 dashboard_import:
   package_import_url: github://TheRealFalseReality/AquaPi-ePaper-Display/aquapi_epaper_config.yaml@main
@@ -195,12 +195,26 @@ display:
         // ========== TOP HEADER ==========
         it.printf(20, 15, id(data_font), "Marine Aquarium");
 
-        std::string age_str = id(sensor_age).state + " old |";
-        it.printf(22, 45, id(sensor_font), TextAlign::TOP_LEFT, "%s", age_str.c_str());
+        std::string age_str = id(sensor_age).state;
+        bool age_is_set = (age_str != "sensor.aquarium_age_entity") && !age_str.empty() && (age_str != "unknown") && (age_str != "unavailable");
+        if (age_is_set) {
+          age_str = age_str + " old |";
+          it.printf(22, 45, id(sensor_font), TextAlign::TOP_LEFT, "%s", age_str.c_str());
+        } else {
+          age_str = "Not Set |";
+          it.printf(22, 45, id(sensor_font), TextAlign::TOP_LEFT, "%s", age_str.c_str());
+        }
         int x1, y1, w1, h1;
         it.get_text_bounds(22, 45, age_str.c_str(), id(sensor_font), TextAlign::TOP_LEFT, &x1, &y1, &w1, &h1);
         it.printf(22 + w1 + 10, 45, id(material_sharp_icons_small), TextAlign::TOP_LEFT, "\uf6d6");
-        it.printf(22 + w1 + 40, 45, id(sensor_font), TextAlign::TOP_LEFT, "%s", id(sensor_water_level).state.c_str());
+        
+        std::string water_level_str = id(sensor_water_level).state;
+        bool water_level_is_set = (water_level_str != "sensor.water_level_entity") && !water_level_str.empty() && (water_level_str != "unknown") && (water_level_str != "unavailable");
+        if (water_level_is_set) {
+          it.printf(22 + w1 + 40, 45, id(sensor_font), TextAlign::TOP_LEFT, "%s", water_level_str.c_str());
+        } else {
+          it.printf(22 + w1 + 40, 45, id(sensor_font), TextAlign::TOP_LEFT, "Not Set");
+        }
 
         auto time_now = id(homeassistant_time).now();
         
@@ -226,48 +240,77 @@ display:
         it.filled_rectangle(x + r, y, w - 2 * r, thickness); it.filled_rectangle(x + r, y + h - thickness, w - 2 * r, thickness); it.filled_rectangle(x, y + r, thickness, h - 2 * r); it.filled_rectangle(x + w - thickness, y + r, thickness, h - 2 * r); it.filled_circle(x + r, y + r, r); it.filled_circle(x + w - r, y + r, r); it.filled_circle(x + r, y + h - r, r); it.filled_circle(x + w - r, y + h - r, r); it.filled_rectangle(x + thickness, y + thickness, w - 2 * thickness, h - 2 * thickness, COLOR_OFF);
         it.printf(x + w - 15, y + 10, id(sensor_font), TextAlign::TOP_RIGHT, "Temperature");
         it.printf(x + 45, y + 55, id(material_sharp_icons), TextAlign::CENTER, "\uf076");
-        it.printf(x + 140, y + 55, id(data_font), TextAlign::CENTER, "%.1f", id(sensor_temp).state);
-        it.printf(x + w - 15, y + h - 10, id(web_font), TextAlign::BOTTOM_RIGHT, "°F");
+        if (!isnan(id(sensor_temp).state) && id(sensor_temp).state != 0.0) {
+          it.printf(x + 140, y + 55, id(data_font), TextAlign::CENTER, "%.1f", id(sensor_temp).state);
+          it.printf(x + w - 15, y + h - 10, id(web_font), TextAlign::BOTTOM_RIGHT, "°F");
+        } else {
+          it.printf(x + 140, y + 55, id(data_font), TextAlign::CENTER, "Not Set");
+        }
 
         x = col2_x; y = row1_y; // pH
         it.filled_rectangle(x + r, y, w - 2 * r, thickness); it.filled_rectangle(x + r, y + h - thickness, w - 2 * r, thickness); it.filled_rectangle(x, y + r, thickness, h - 2 * r); it.filled_rectangle(x + w - thickness, y + r, thickness, h - 2 * r); it.filled_circle(x + r, y + r, r); it.filled_circle(x + w - r, y + r, r); it.filled_circle(x + r, y + h - r, r); it.filled_circle(x + w - r, y + h - r, r); it.filled_rectangle(x + thickness, y + thickness, w - 2 * thickness, h - 2 * thickness, COLOR_OFF);
         it.printf(x + w - 15, y + 10, id(sensor_font), TextAlign::TOP_RIGHT, "pH");
         it.printf(x + 45, y + 55, id(material_sharp_icons), TextAlign::CENTER, "\uf87a");
-        it.printf(x + 140, y + 55, id(data_font), TextAlign::CENTER, "%.2f", id(sensor_ph).state);
+        if (!isnan(id(sensor_ph).state) && id(sensor_ph).state != 0.0) {
+          it.printf(x + 140, y + 55, id(data_font), TextAlign::CENTER, "%.2f", id(sensor_ph).state);
+        } else {
+          it.printf(x + 140, y + 55, id(data_font), TextAlign::CENTER, "Not Set");
+        }
         
         x = col3_x; y = row1_y; // Salinity
         it.filled_rectangle(x + r, y, w - 2 * r, thickness); it.filled_rectangle(x + r, y + h - thickness, w - 2 * r, thickness); it.filled_rectangle(x, y + r, thickness, h - 2 * r); it.filled_rectangle(x + w - thickness, y + r, thickness, h - 2 * r); it.filled_circle(x + r, y + r, r); it.filled_circle(x + w - r, y + r, r); it.filled_circle(x + r, y + h - r, r); it.filled_circle(x + w - r, y + h - r, r); it.filled_rectangle(x + thickness, y + thickness, w - 2 * thickness, h - 2 * thickness, COLOR_OFF);
         it.printf(x + w - 15, y + 10, id(sensor_font), TextAlign::TOP_RIGHT, "Salinity");
         it.printf(x + 45, y + 55, id(material_sharp_icons), TextAlign::CENTER, "\uf876");
-        it.printf(x + 140, y + 55, id(data_font), TextAlign::CENTER, "%.1f", id(sensor_salinity).state);
-        it.printf(x + w - 15, y + h - 10, id(web_font), TextAlign::BOTTOM_RIGHT, "ppt");
+        if (!isnan(id(sensor_salinity).state) && id(sensor_salinity).state != 0.0) {
+          it.printf(x + 140, y + 55, id(data_font), TextAlign::CENTER, "%.1f", id(sensor_salinity).state);
+          it.printf(x + w - 15, y + h - 10, id(web_font), TextAlign::BOTTOM_RIGHT, "ppt");
+        } else {
+          it.printf(x + 140, y + 55, id(data_font), TextAlign::CENTER, "Not Set");
+        }
 
         // --- ROW 2: ORP | Dissolved Oxygen | Power ---
         x = col1_x; y = row2_y; // ORP
         it.filled_rectangle(x + r, y, w - 2 * r, thickness); it.filled_rectangle(x + r, y + h - thickness, w - 2 * r, thickness); it.filled_rectangle(x, y + r, thickness, h - 2 * r); it.filled_rectangle(x + w - thickness, y + r, thickness, h - 2 * r); it.filled_circle(x + r, y + r, r); it.filled_circle(x + w - r, y + r, r); it.filled_circle(x + r, y + h - r, r); it.filled_circle(x + w - r, y + h - r, r); it.filled_rectangle(x + thickness, y + thickness, w - 2 * thickness, h - 2 * thickness, COLOR_OFF);
         it.printf(x + w - 15, y + 10, id(sensor_font), TextAlign::TOP_RIGHT, "ORP");
         it.printf(x + 45, y + 55, id(material_sharp_icons), TextAlign::CENTER, "\uf878");
-        it.printf(x + 140, y + 55, id(data_font), TextAlign::CENTER, "%.0f", id(sensor_orp).state);
-        it.printf(x + w - 15, y + h - 10, id(web_font), TextAlign::BOTTOM_RIGHT, "mV");
+        if (!isnan(id(sensor_orp).state) && id(sensor_orp).state != 0.0) {
+          it.printf(x + 140, y + 55, id(data_font), TextAlign::CENTER, "%.0f", id(sensor_orp).state);
+          it.printf(x + w - 15, y + h - 10, id(web_font), TextAlign::BOTTOM_RIGHT, "mV");
+        } else {
+          it.printf(x + 140, y + 55, id(data_font), TextAlign::CENTER, "Not Set");
+        }
 
         x = col2_x; y = row2_y; // Dissolved Oxygen
         it.filled_rectangle(x + r, y, w - 2 * r, thickness); it.filled_rectangle(x + r, y + h - thickness, w - 2 * r, thickness); it.filled_rectangle(x, y + r, thickness, h - 2 * r); it.filled_rectangle(x + w - thickness, y + r, thickness, h - 2 * r); it.filled_circle(x + r, y + r, r); it.filled_circle(x + w - r, y + r, r); it.filled_circle(x + r, y + h - r, r); it.filled_circle(x + w - r, y + h - r, r); it.filled_rectangle(x + thickness, y + thickness, w - 2 * thickness, h - 2 * thickness, COLOR_OFF);
         it.printf(x + w - 15, y + 10, id(sensor_font), TextAlign::TOP_RIGHT, "Dissolved O2");
         it.printf(x + 45, y + 55, id(material_sharp_icons), TextAlign::CENTER, "\uf870");
-        it.printf(x + 140, y + 55, id(data_font), TextAlign::CENTER, "%.0f", id(sensor_do).state);
-        it.printf(x + w - 15, y + h - 10, id(web_font), TextAlign::BOTTOM_RIGHT, "%%");
+        if (!isnan(id(sensor_do).state) && id(sensor_do).state != 0.0) {
+          it.printf(x + 140, y + 55, id(data_font), TextAlign::CENTER, "%.0f", id(sensor_do).state);
+          it.printf(x + w - 15, y + h - 10, id(web_font), TextAlign::BOTTOM_RIGHT, "%%");
+        } else {
+          it.printf(x + 140, y + 55, id(data_font), TextAlign::CENTER, "Not Set");
+        }
         
         x = col3_x; y = row2_y; // Power
         it.filled_rectangle(x + r, y, w - 2 * r, thickness); it.filled_rectangle(x + r, y + h - thickness, w - 2 * r, thickness); it.filled_rectangle(x, y + r, thickness, h - 2 * r); it.filled_rectangle(x + w - thickness, y + r, thickness, h - 2 * r); it.filled_circle(x + r, y + r, r); it.filled_circle(x + w - r, y + r, r); it.filled_circle(x + r, y + h - r, r); it.filled_circle(x + w - r, y + h - r, r); it.filled_rectangle(x + thickness, y + thickness, w - 2 * thickness, h - 2 * thickness, COLOR_OFF);
         it.printf(x + w - 15, y + 10, id(sensor_font), TextAlign::TOP_RIGHT, "Power");
         it.printf(x + 45, y + 55, id(material_sharp_icons), TextAlign::CENTER, "\ue63c");
-        it.printf(x + 140, y + 55, id(data_font), TextAlign::CENTER, "%.0f", id(sensor_power).state);
-        it.printf(x + w - 15, y + h - 10, id(web_font), TextAlign::BOTTOM_RIGHT, "W");
+        if (!isnan(id(sensor_power).state) && id(sensor_power).state != 0.0) {
+          it.printf(x + 140, y + 55, id(data_font), TextAlign::CENTER, "%.0f", id(sensor_power).state);
+          it.printf(x + w - 15, y + h - 10, id(web_font), TextAlign::BOTTOM_RIGHT, "W");
+        } else {
+          it.printf(x + 140, y + 55, id(data_font), TextAlign::CENTER, "Not Set");
+        }
         
         // ========== FOOTER WITH MANUAL TEXT WRAPPING ==========
         it.filled_rectangle(0, 330, it.get_width(), 2);
         
         std::string text = id(sensor_analysis).state;
+        bool analysis_is_set = (text != "sensor.analysis_entity") && !text.empty() && (text != "unknown") && (text != "unavailable");
+        if (!analysis_is_set) {
+          text = "Analysis not configured";
+        }
+        
         int max_line_width = 760;
         int y_start = 340;
         auto* font = id(sensor_font);
