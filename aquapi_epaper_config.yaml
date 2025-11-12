@@ -4,7 +4,7 @@ substitutions:
   friendly_name: "AquaPi ePaper Display"
   comment: "Firmware for ESP32 ePaper display showing AquaPi & aquarium data"
   project_name: "TheRealFalseReality.AquaPi-ePaper-Display"
-  import: "false"
+  import: "true"
   app_version: "0.0.7"
   
   # Home Assistant sensor entity IDs
