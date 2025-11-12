@@ -22,15 +22,15 @@ The default configuration uses generic placeholders that will display "Not Set" 
 
 ```yaml
 substitutions:
-  sensor_temp_entity: "sensor.temperature_entity"
-  sensor_ph_entity: "sensor.ph_entity"
-  sensor_do_entity: "sensor.dissolved_oxygen_entity"
-  sensor_orp_entity: "sensor.orp_entity"
-  sensor_salinity_entity: "sensor.salinity_entity"
-  sensor_power_entity: "sensor.power_entity"
-  sensor_age_entity: "sensor.aquarium_age_entity"
-  sensor_analysis_entity: "sensor.analysis_entity"
-  sensor_water_level_entity: "sensor.water_level_entity"
+  sensor_temp_entity: "sensor.my_temperature_entity"
+  sensor_ph_entity: "sensor.my_ph_entity"
+  sensor_do_entity: "sensor.my_dissolved_oxygen_saturation_entity"
+  sensor_orp_entity: "sensor.my_orp_entity"
+  sensor_salinity_entity: "sensor.my_salinity_entity"
+  sensor_power_entity: "sensor.my_aquarium_power_entity"
+  sensor_age_entity: "sensor.my_aquarium_age_entity"
+  sensor_analysis_entity: "sensor.my_overall_analysis_entity"
+  sensor_water_level_entity: "sensor.my_water_level_entity"
 ```
 
 ### Configuring Your Sensors
