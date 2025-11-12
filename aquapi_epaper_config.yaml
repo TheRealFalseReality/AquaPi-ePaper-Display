@@ -1,5 +1,5 @@
 substitutions:
-  # names
+  # names and versions
   name: "aquapi_epaper_display"
   friendly_name: "AquaPi ePaper Display"
   comment: "Firmware for ESP32 ePaper display showing AquaPi & aquarium data"
@@ -95,39 +95,39 @@ time:
 
 sensor:
   - platform: homeassistant
-    id: temp
+    id: sensor_temp
     entity_id: "${sensor_temp_entity}"
     internal: true
   - platform: homeassistant
-    id: ph
+    id: sensor_ph
     entity_id: "${sensor_ph_entity}"
     internal: true
   - platform: homeassistant
-    id: do
+    id: sensor_do
     entity_id: "${sensor_do_entity}"
     internal: true
   - platform: homeassistant
-    id: orp
+    id: sensor_orp
     entity_id: "${sensor_orp_entity}"
     internal: true
   - platform: homeassistant
-    id: salinity
+    id: sensor_salinity
     entity_id: "${sensor_salinity_entity}"
     internal: true
   - platform: homeassistant
-    id: power
+    id: sensor_power
     entity_id: "${sensor_power_entity}"
     internal: true
 
 text_sensor:
   - platform: homeassistant
-    id: age
+    id: sensor_age
     entity_id: "${sensor_age_entity}"
   - platform: homeassistant
-    id: analysis
+    id: sensor_analysis
     entity_id: "${sensor_analysis_entity}"
   - platform: homeassistant
-    id: water_level
+    id: sensor_water_level
     entity_id: "${sensor_water_level_entity}"
   - platform: template
     name: " Version"
@@ -195,12 +195,12 @@ display:
         // ========== TOP HEADER ==========
         it.printf(20, 15, id(data_font), "Marine Aquarium");
 
-        std::string age_str = id(age).state + " old |";
+        std::string age_str = id(sensor_age).state + " old |";
         it.printf(22, 45, id(sensor_font), TextAlign::TOP_LEFT, "%s", age_str.c_str());
         int x1, y1, w1, h1;
         it.get_text_bounds(22, 45, age_str.c_str(), id(sensor_font), TextAlign::TOP_LEFT, &x1, &y1, &w1, &h1);
         it.printf(22 + w1 + 10, 45, id(material_sharp_icons_small), TextAlign::TOP_LEFT, "\uf6d6");
-        it.printf(22 + w1 + 40, 45, id(sensor_font), TextAlign::TOP_LEFT, "%s", id(water_level).state.c_str());
+        it.printf(22 + w1 + 40, 45, id(sensor_font), TextAlign::TOP_LEFT, "%s", id(sensor_water_level).state.c_str());
 
         auto time_now = id(homeassistant_time).now();
         
@@ -226,20 +226,20 @@ display:
         it.filled_rectangle(x + r, y, w - 2 * r, thickness); it.filled_rectangle(x + r, y + h - thickness, w - 2 * r, thickness); it.filled_rectangle(x, y + r, thickness, h - 2 * r); it.filled_rectangle(x + w - thickness, y + r, thickness, h - 2 * r); it.filled_circle(x + r, y + r, r); it.filled_circle(x + w - r, y + r, r); it.filled_circle(x + r, y + h - r, r); it.filled_circle(x + w - r, y + h - r, r); it.filled_rectangle(x + thickness, y + thickness, w - 2 * thickness, h - 2 * thickness, COLOR_OFF);
         it.printf(x + w - 15, y + 10, id(sensor_font), TextAlign::TOP_RIGHT, "Temperature");
         it.printf(x + 45, y + 55, id(material_sharp_icons), TextAlign::CENTER, "\uf076");
-        it.printf(x + 140, y + 55, id(data_font), TextAlign::CENTER, "%.1f", id(temp).state);
+        it.printf(x + 140, y + 55, id(data_font), TextAlign::CENTER, "%.1f", id(sensor_temp).state);
         it.printf(x + w - 15, y + h - 10, id(web_font), TextAlign::BOTTOM_RIGHT, "°F");
 
         x = col2_x; y = row1_y; // pH
         it.filled_rectangle(x + r, y, w - 2 * r, thickness); it.filled_rectangle(x + r, y + h - thickness, w - 2 * r, thickness); it.filled_rectangle(x, y + r, thickness, h - 2 * r); it.filled_rectangle(x + w - thickness, y + r, thickness, h - 2 * r); it.filled_circle(x + r, y + r, r); it.filled_circle(x + w - r, y + r, r); it.filled_circle(x + r, y + h - r, r); it.filled_circle(x + w - r, y + h - r, r); it.filled_rectangle(x + thickness, y + thickness, w - 2 * thickness, h - 2 * thickness, COLOR_OFF);
         it.printf(x + w - 15, y + 10, id(sensor_font), TextAlign::TOP_RIGHT, "pH");
         it.printf(x + 45, y + 55, id(material_sharp_icons), TextAlign::CENTER, "\uf87a");
-        it.printf(x + 140, y + 55, id(data_font), TextAlign::CENTER, "%.2f", id(ph).state);
+        it.printf(x + 140, y + 55, id(data_font), TextAlign::CENTER, "%.2f", id(sensor_ph).state);
         
         x = col3_x; y = row1_y; // Salinity
         it.filled_rectangle(x + r, y, w - 2 * r, thickness); it.filled_rectangle(x + r, y + h - thickness, w - 2 * r, thickness); it.filled_rectangle(x, y + r, thickness, h - 2 * r); it.filled_rectangle(x + w - thickness, y + r, thickness, h - 2 * r); it.filled_circle(x + r, y + r, r); it.filled_circle(x + w - r, y + r, r); it.filled_circle(x + r, y + h - r, r); it.filled_circle(x + w - r, y + h - r, r); it.filled_rectangle(x + thickness, y + thickness, w - 2 * thickness, h - 2 * thickness, COLOR_OFF);
         it.printf(x + w - 15, y + 10, id(sensor_font), TextAlign::TOP_RIGHT, "Salinity");
         it.printf(x + 45, y + 55, id(material_sharp_icons), TextAlign::CENTER, "\uf876");
-        it.printf(x + 140, y + 55, id(data_font), TextAlign::CENTER, "%.1f", id(salinity).state);
+        it.printf(x + 140, y + 55, id(data_font), TextAlign::CENTER, "%.1f", id(sensor_salinity).state);
         it.printf(x + w - 15, y + h - 10, id(web_font), TextAlign::BOTTOM_RIGHT, "ppt");
 
         // --- ROW 2: ORP | Dissolved Oxygen | Power ---
@@ -247,27 +247,27 @@ display:
         it.filled_rectangle(x + r, y, w - 2 * r, thickness); it.filled_rectangle(x + r, y + h - thickness, w - 2 * r, thickness); it.filled_rectangle(x, y + r, thickness, h - 2 * r); it.filled_rectangle(x + w - thickness, y + r, thickness, h - 2 * r); it.filled_circle(x + r, y + r, r); it.filled_circle(x + w - r, y + r, r); it.filled_circle(x + r, y + h - r, r); it.filled_circle(x + w - r, y + h - r, r); it.filled_rectangle(x + thickness, y + thickness, w - 2 * thickness, h - 2 * thickness, COLOR_OFF);
         it.printf(x + w - 15, y + 10, id(sensor_font), TextAlign::TOP_RIGHT, "ORP");
         it.printf(x + 45, y + 55, id(material_sharp_icons), TextAlign::CENTER, "\uf878");
-        it.printf(x + 140, y + 55, id(data_font), TextAlign::CENTER, "%.0f", id(orp).state);
+        it.printf(x + 140, y + 55, id(data_font), TextAlign::CENTER, "%.0f", id(sensor_orp).state);
         it.printf(x + w - 15, y + h - 10, id(web_font), TextAlign::BOTTOM_RIGHT, "mV");
 
         x = col2_x; y = row2_y; // Dissolved Oxygen
         it.filled_rectangle(x + r, y, w - 2 * r, thickness); it.filled_rectangle(x + r, y + h - thickness, w - 2 * r, thickness); it.filled_rectangle(x, y + r, thickness, h - 2 * r); it.filled_rectangle(x + w - thickness, y + r, thickness, h - 2 * r); it.filled_circle(x + r, y + r, r); it.filled_circle(x + w - r, y + r, r); it.filled_circle(x + r, y + h - r, r); it.filled_circle(x + w - r, y + h - r, r); it.filled_rectangle(x + thickness, y + thickness, w - 2 * thickness, h - 2 * thickness, COLOR_OFF);
         it.printf(x + w - 15, y + 10, id(sensor_font), TextAlign::TOP_RIGHT, "Dissolved O2");
         it.printf(x + 45, y + 55, id(material_sharp_icons), TextAlign::CENTER, "\uf870");
-        it.printf(x + 140, y + 55, id(data_font), TextAlign::CENTER, "%.0f", id(do).state);
+        it.printf(x + 140, y + 55, id(data_font), TextAlign::CENTER, "%.0f", id(sensor_do).state);
         it.printf(x + w - 15, y + h - 10, id(web_font), TextAlign::BOTTOM_RIGHT, "%%");
         
         x = col3_x; y = row2_y; // Power
         it.filled_rectangle(x + r, y, w - 2 * r, thickness); it.filled_rectangle(x + r, y + h - thickness, w - 2 * r, thickness); it.filled_rectangle(x, y + r, thickness, h - 2 * r); it.filled_rectangle(x + w - thickness, y + r, thickness, h - 2 * r); it.filled_circle(x + r, y + r, r); it.filled_circle(x + w - r, y + r, r); it.filled_circle(x + r, y + h - r, r); it.filled_circle(x + w - r, y + h - r, r); it.filled_rectangle(x + thickness, y + thickness, w - 2 * thickness, h - 2 * thickness, COLOR_OFF);
         it.printf(x + w - 15, y + 10, id(sensor_font), TextAlign::TOP_RIGHT, "Power");
         it.printf(x + 45, y + 55, id(material_sharp_icons), TextAlign::CENTER, "\ue63c");
-        it.printf(x + 140, y + 55, id(data_font), TextAlign::CENTER, "%.0f", id(power).state);
+        it.printf(x + 140, y + 55, id(data_font), TextAlign::CENTER, "%.0f", id(sensor_power).state);
         it.printf(x + w - 15, y + h - 10, id(web_font), TextAlign::BOTTOM_RIGHT, "W");
         
         // ========== FOOTER WITH MANUAL TEXT WRAPPING ==========
         it.filled_rectangle(0, 330, it.get_width(), 2);
         
-        std::string text = id(analysis).state;
+        std::string text = id(sensor_analysis).state;
         int max_line_width = 760;
         int y_start = 340;
         auto* font = id(sensor_font);
