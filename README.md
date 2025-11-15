@@ -30,6 +30,7 @@ substitutions:
   sensor_power_entity: "sensor.my_aquarium_power_entity"
   sensor_age_entity: "sensor.my_aquarium_age_entity"
   sensor_analysis_entity: "sensor.my_overall_analysis_entity"
+  sensor_camera_analysis_entity: "sensor.my_camera_visual_analysis_entity"
   sensor_water_level_entity: "sensor.my_water_level_entity"
 ```
 
@@ -51,6 +52,7 @@ substitutions:
   sensor_power_entity: "sensor.my_aquarium_power"
   sensor_age_entity: "sensor.my_aquarium_age"
   sensor_analysis_entity: "sensor.my_overall_analysis"
+  sensor_camera_analysis_entity: "sensor.my_camera_visual_analysis"
   sensor_water_level_entity: "sensor.my_water_level"
 ```
 

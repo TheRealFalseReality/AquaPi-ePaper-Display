@@ -16,6 +16,7 @@ substitutions:
   sensor_power_entity: "sensor.my_aquarium_power_entity"
   sensor_age_entity: "sensor.my_aquarium_age_entity"
   sensor_analysis_entity: "sensor.my_overall_analysis_entity"
+  sensor_camera_analysis_entity: "sensor.my_camera_visual_analysis_entity"
   sensor_water_level_entity: "sensor.my_water_level_entity"
 
 dashboard_import:
@@ -126,6 +127,9 @@ text_sensor:
   - platform: homeassistant
     id: sensor_analysis
     entity_id: "${sensor_analysis_entity}"
+  - platform: homeassistant
+    id: sensor_camera_analysis
+    entity_id: "${sensor_camera_analysis_entity}"
   - platform: homeassistant
     id: sensor_water_level
     entity_id: "${sensor_water_level_entity}"
@@ -305,9 +309,20 @@ display:
         // ========== FOOTER WITH MANUAL TEXT WRAPPING ==========
         it.filled_rectangle(0, 330, it.get_width(), 2);
         
-        std::string text = id(sensor_analysis).state;
-        bool analysis_is_set = (text != "sensor.analysis_entity") && !text.empty() && (text != "unknown") && (text != "unavailable");
-        if (!analysis_is_set) {
+        std::string text = "";
+        std::string overall_analysis = id(sensor_analysis).state;
+        std::string camera_analysis = id(sensor_camera_analysis).state;
+        
+        bool overall_is_set = (overall_analysis != "sensor.analysis_entity") && !overall_analysis.empty() && (overall_analysis != "unknown") && (overall_analysis != "unavailable");
+        bool camera_is_set = (camera_analysis != "sensor.camera_analysis_entity") && !camera_analysis.empty() && (camera_analysis != "unknown") && (camera_analysis != "unavailable");
+        
+        if (overall_is_set && camera_is_set) {
+          text = "Overall: " + overall_analysis + "  Camera: " + camera_analysis;
+        } else if (overall_is_set) {
+          text = overall_analysis;
+        } else if (camera_is_set) {
+          text = "Camera: " + camera_analysis;
+        } else {
           text = "Analysis not configured  Visit github.com/TheRealFalseReality/AquaPi-ePaper-Display/wiki for a guide.";
         }
         
