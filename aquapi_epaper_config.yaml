@@ -1,11 +1,6 @@
 substitutions:
-  # names and versions
-  name: "aquapi_epaper_display"
-  friendly_name: "AquaPi ePaper Display"
-  comment: "Firmware for ESP32 ePaper display showing AquaPi & aquarium data"
-  project_name: "TheRealFalseReality.AquaPi-ePaper-Display"
-  import: "true"
-  app_version: "0.0.8"
+  # Name customization
+  aquarium_name: "My Aquarium"
   
   # Home Assistant sensor entity IDs
   sensor_temp_entity: "sensor.my_temperature_entity"
@@ -17,6 +12,14 @@ substitutions:
   sensor_age_entity: "sensor.my_aquarium_age_entity"
   sensor_analysis_entity: "sensor.my_overall_analysis_entity"
   sensor_water_level_entity: "sensor.my_water_level_entity"
+
+  # names and versions
+  name: "aquapi_epaper_display"
+  friendly_name: "AquaPi ePaper Display"
+  comment: "Firmware for ESP32 ePaper display showing AquaPi & aquarium data"
+  project_name: "TheRealFalseReality.AquaPi-ePaper-Display"
+  import: "true"
+  app_version: "0.0.8"
 
 dashboard_import:
   package_import_url: github://TheRealFalseReality/AquaPi-ePaper-Display/aquapi_epaper_config.yaml@main
@@ -80,13 +83,6 @@ deep_sleep:
   id: deep_sleep_1
   run_duration: 1min
   sleep_duration: 5min
-
-image:
-  - file: image/wifi.jpg
-    type: BINARY
-    id: esphome_logo
-    resize: 400x240
-    invert_alpha: true
 
 # Connect to Home Assistant to get time
 time:
@@ -159,6 +155,7 @@ font:
       - "\ue63c"  # power: power
       - "\uf870"  # do: "do" icon
       - "\uf6d6"  # water_level icon
+      - "\ue63e"  # wifi: wifi
 
   - file: 'fonts/MaterialSymbolsSharp-VariableFont_FILL,GRAD,opsz,wght.ttf'
     id: material_sharp_icons_small
@@ -189,11 +186,11 @@ display:
     update_interval: 50s
     lambda: |-
       if (id(wifi_status) == 0) {
-        it.image(180, 0, id(esphome_logo));
+        it.printf(it.get_width() / 2, 100, id(material_sharp_icons), TextAlign::TOP_CENTER, "\ue63e");
         it.print(230, 300, id(data_font), "WI-FI CONNECTING");
       } else {
         // ========== TOP HEADER ==========
-        it.printf(20, 15, id(data_font), "Marine Aquarium");
+        it.printf(20, 15, id(data_font), "${aquarium_name}");
 
         std::string age_str = id(sensor_age).state;
         bool age_is_set = (age_str != "sensor.aquarium_age_entity") && !age_str.empty() && (age_str != "unknown") && (age_str != "unavailable");
