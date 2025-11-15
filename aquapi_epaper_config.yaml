@@ -1,13 +1,5 @@
 substitutions:
-  # names and versions
-  name: "aquapi_epaper_display"
-  friendly_name: "AquaPi ePaper Display"
-  comment: "Firmware for ESP32 ePaper display showing AquaPi & aquarium data"
-  project_name: "TheRealFalseReality.AquaPi-ePaper-Display"
-  import: "true"
-  app_version: "0.0.8"
-  
-  # Display customization
+  # Name customization
   aquarium_name: "My Aquarium"
   
   # Home Assistant sensor entity IDs
@@ -20,7 +12,14 @@ substitutions:
   sensor_age_entity: "sensor.my_aquarium_age_entity"
   sensor_analysis_entity: "sensor.my_overall_analysis_entity"
   sensor_water_level_entity: "sensor.my_water_level_entity"
-  sensor_time_entity: "homeassistant_time"
+
+  # names and versions
+  name: "aquapi_epaper_display"
+  friendly_name: "AquaPi ePaper Display"
+  comment: "Firmware for ESP32 ePaper display showing AquaPi & aquarium data"
+  project_name: "TheRealFalseReality.AquaPi-ePaper-Display"
+  import: "true"
+  app_version: "0.0.8"
 
 dashboard_import:
   package_import_url: github://TheRealFalseReality/AquaPi-ePaper-Display/aquapi_epaper_config.yaml@main
@@ -88,7 +87,7 @@ deep_sleep:
 # Connect to Home Assistant to get time
 time:
   - platform: homeassistant
-    id: "${sensor_time_entity}"
+    id: homeassistant_time
 
 sensor:
   - platform: homeassistant
