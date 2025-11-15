@@ -17,6 +17,7 @@ substitutions:
   sensor_age_entity: "sensor.my_aquarium_age_entity"
   sensor_analysis_entity: "sensor.my_overall_analysis_entity"
   sensor_water_level_entity: "sensor.my_water_level_entity"
+  sensor_time_entity: "homeassistant_time"
 
 dashboard_import:
   package_import_url: github://TheRealFalseReality/AquaPi-ePaper-Display/aquapi_epaper_config.yaml@main
@@ -84,7 +85,7 @@ deep_sleep:
 # Connect to Home Assistant to get time
 time:
   - platform: homeassistant
-    id: homeassistant_time
+    id: "${sensor_time_entity}"
 
 sensor:
   - platform: homeassistant
