@@ -7,6 +7,9 @@ substitutions:
   import: "true"
   app_version: "0.0.8"
   
+  # Display customization
+  aquarium_name: "My Aquarium"
+  
   # Home Assistant sensor entity IDs
   sensor_temp_entity: "sensor.my_temperature_entity"
   sensor_ph_entity: "sensor.my_ph_entity"
@@ -188,7 +191,7 @@ display:
         it.print(230, 300, id(data_font), "WI-FI CONNECTING");
       } else {
         // ========== TOP HEADER ==========
-        it.printf(20, 15, id(data_font), "Marine Aquarium");
+        it.printf(20, 15, id(data_font), "${aquarium_name}");
 
         std::string age_str = id(sensor_age).state;
         bool age_is_set = (age_str != "sensor.aquarium_age_entity") && !age_str.empty() && (age_str != "unknown") && (age_str != "unavailable");
