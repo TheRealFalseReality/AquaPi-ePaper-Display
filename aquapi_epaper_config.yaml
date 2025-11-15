@@ -308,7 +308,7 @@ display:
         std::string text = id(sensor_analysis).state;
         bool analysis_is_set = (text != "sensor.analysis_entity") && !text.empty() && (text != "unknown") && (text != "unavailable");
         if (!analysis_is_set) {
-          text = "Analysis not configured\nVisit https://github.com/TheRealFalseReality/AquaPi-ePaper-Display/wiki for a guide.";
+          text = "Analysis not configured  Visit github.com/TheRealFalseReality/AquaPi-ePaper-Display/wiki for a guide.";
         }
         
         int max_line_width = 760;
