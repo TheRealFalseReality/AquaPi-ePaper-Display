@@ -81,13 +81,6 @@ deep_sleep:
   run_duration: 1min
   sleep_duration: 5min
 
-image:
-  - file: image/wifi.jpg
-    type: BINARY
-    id: esphome_logo
-    resize: 400x240
-    invert_alpha: true
-
 # Connect to Home Assistant to get time
 time:
   - platform: homeassistant
@@ -159,6 +152,7 @@ font:
       - "\ue63c"  # power: power
       - "\uf870"  # do: "do" icon
       - "\uf6d6"  # water_level icon
+      - "\ue63e"  # wifi: wifi
 
   - file: 'fonts/MaterialSymbolsSharp-VariableFont_FILL,GRAD,opsz,wght.ttf'
     id: material_sharp_icons_small
@@ -189,7 +183,7 @@ display:
     update_interval: 50s
     lambda: |-
       if (id(wifi_status) == 0) {
-        it.image(180, 0, id(esphome_logo));
+        it.printf(it.get_width() / 2, 100, id(material_sharp_icons), TextAlign::TOP_CENTER, "\ue63e");
         it.print(230, 300, id(data_font), "WI-FI CONNECTING");
       } else {
         // ========== TOP HEADER ==========
