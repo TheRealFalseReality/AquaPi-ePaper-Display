@@ -13,13 +13,17 @@ substitutions:
   sensor_analysis_entity: "sensor.my_overall_analysis_entity"
   sensor_water_level_entity: "sensor.my_water_level_entity"
 
+  # Sleep
+  run_duration: "1min"
+  sleep_duration: "5min"
+
   # names and versions
   name: "aquapi_epaper_display"
   friendly_name: "AquaPi ePaper Display"
   comment: "Firmware for ESP32 ePaper display showing AquaPi & aquarium data"
   project_name: "TheRealFalseReality.AquaPi-ePaper-Display"
   import: "true"
-  app_version: "0.0.8"
+  app_version: "0.0.9"
 
 dashboard_import:
   package_import_url: github://TheRealFalseReality/AquaPi-ePaper-Display/aquapi_epaper_config.yaml@main
@@ -81,8 +85,8 @@ globals:
 # Here is deep sleep part
 deep_sleep:
   id: deep_sleep_1
-  run_duration: 1min
-  sleep_duration: 5min
+  run_duration: "${run_duration}"
+  sleep_duration: "${sleep_duration}"
 
 # Connect to Home Assistant to get time
 time:
