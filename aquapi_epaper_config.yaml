@@ -234,15 +234,15 @@ display:
         char weather_str[15];
         bool weather_temp_is_set = !isnan(id(sensor_weather_temp).state);
         if (weather_temp_is_set) {
-          snprintf(weather_str, sizeof(weather_str), "%.0f°", id(sensor_weather_temp).state);
-          it.printf(it.get_width() - 20, 15, id(data_font), TextAlign::TOP_RIGHT, "%s  |  %d:%02d %s", weather_str, hour_12, time_now.minute, am_pm);
+          snprintf(weather_str, sizeof(weather_str), "%.0f° |", id(sensor_weather_temp).state);
+          it.printf(it.get_width() - 20, 15, id(data_font), TextAlign::TOP_RIGHT, "%s %d:%02d %s", weather_str, hour_12, time_now.minute, am_pm);
         } else {
           it.printf(it.get_width() - 20, 15, id(data_font), TextAlign::TOP_RIGHT, "%d:%02d %s", hour_12, time_now.minute, am_pm);
         }
         
         it.strftime(it.get_width() - 20, 45, id(sensor_font), TextAlign::TOP_RIGHT, "%A, %b %d", time_now);
         
-        it.filled_rectangle(0, 80, it.get_width(), 2);
+        it.filled_rectangle(20, 80, it.get_width() - 40, 2);
 
         // ========== SENSOR GRID (3x2 Compact) ==========
         int w = 230, h = 100, r = 10, thickness = 3;
