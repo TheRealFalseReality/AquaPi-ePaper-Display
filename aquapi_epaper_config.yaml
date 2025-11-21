@@ -204,10 +204,10 @@ display:
         std::string age_str = id(sensor_age).state;
         bool age_is_set = (age_str != "sensor.aquarium_age_entity") && !age_str.empty() && (age_str != "unknown") && (age_str != "unavailable");
         if (age_is_set) {
-          age_str = age_str + " old |";
+          age_str = age_str + " old •";
           it.printf(22, 45, id(sensor_font), TextAlign::TOP_LEFT, "%s", age_str.c_str());
         } else {
-          age_str = "Not Set |";
+          age_str = "Not Set •";
           it.printf(22, 45, id(sensor_font), TextAlign::TOP_LEFT, "%s", age_str.c_str());
         }
         int x1, y1, w1, h1;
@@ -234,7 +234,7 @@ display:
         char weather_str[15];
         bool weather_temp_is_set = !isnan(id(sensor_weather_temp).state);
         if (weather_temp_is_set) {
-          snprintf(weather_str, sizeof(weather_str), "%.0f° |", id(sensor_weather_temp).state);
+          snprintf(weather_str, sizeof(weather_str), "%.0f° •", id(sensor_weather_temp).state);
           it.printf(it.get_width() - 20, 15, id(data_font), TextAlign::TOP_RIGHT, "%s %d:%02d %s", weather_str, hour_12, time_now.minute, am_pm);
         } else {
           it.printf(it.get_width() - 20, 15, id(data_font), TextAlign::TOP_RIGHT, "%d:%02d %s", hour_12, time_now.minute, am_pm);
