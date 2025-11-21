@@ -31,6 +31,7 @@ substitutions:
   sensor_age_entity: "sensor.my_aquarium_age_entity"
   sensor_analysis_entity: "sensor.my_overall_analysis_entity"
   sensor_water_level_entity: "sensor.my_water_level_entity"
+  sensor_weather_temp_entity: "sensor.my_weather_temperature_entity"
 ```
 
 ### Configuring Your Sensors
@@ -52,9 +53,14 @@ substitutions:
   sensor_age_entity: "sensor.my_aquarium_age"
   sensor_analysis_entity: "sensor.my_overall_analysis"
   sensor_water_level_entity: "sensor.my_water_level"
+  sensor_weather_temp_entity: "sensor.my_weather_temperature"  # Optional weather temperature
 ```
 
 **Note:** Any sensor that is not configured (left as default placeholder) will display "Not Set" on the ePaper display instead of a value and unit.
+
+### Weather Temperature Display
+
+The display includes an optional weather temperature sensor that appears to the left of the time in the header with a subtle separator. If the `sensor_weather_temp_entity` is configured with a valid Home Assistant weather temperature sensor, the current temperature will be displayed with the unit of measurement. If not configured or unavailable, the area remains blank to maintain a clean display layout.
 
 ## Installation
 

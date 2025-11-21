@@ -12,6 +12,7 @@ substitutions:
   sensor_age_entity: "sensor.my_aquarium_age_entity"
   sensor_analysis_entity: "sensor.my_overall_analysis_entity"
   sensor_water_level_entity: "sensor.my_water_level_entity"
+  sensor_weather_temp_entity: "sensor.my_weather_temperature_entity"
 
   # Sleep
   run_duration: "1min"
@@ -117,6 +118,10 @@ sensor:
   - platform: homeassistant
     id: sensor_power
     entity_id: "${sensor_power_entity}"
+    internal: true
+  - platform: homeassistant
+    id: sensor_weather_temp
+    entity_id: "${sensor_weather_temp_entity}"
     internal: true
 
 text_sensor:
@@ -224,7 +229,16 @@ display:
         if (hour_12 >= 12) { am_pm = "PM"; }
         if (hour_12 == 0) { hour_12 = 12; }
         if (hour_12 > 12) { hour_12 -= 12; }
-        it.printf(it.get_width() - 20, 15, id(data_font), TextAlign::TOP_RIGHT, "%d:%02d %s", hour_12, time_now.minute, am_pm);
+        
+        // Display weather temperature to the left of time with separator
+        bool weather_temp_is_set = !isnan(id(sensor_weather_temp).state) && id(sensor_weather_temp).state != 0.0;
+        if (weather_temp_is_set) {
+          char weather_str[50];
+          snprintf(weather_str, sizeof(weather_str), "%.0f°", id(sensor_weather_temp).state);
+          it.printf(it.get_width() - 20, 15, id(data_font), TextAlign::TOP_RIGHT, "%s  |  %d:%02d %s", weather_str, hour_12, time_now.minute, am_pm);
+        } else {
+          it.printf(it.get_width() - 20, 15, id(data_font), TextAlign::TOP_RIGHT, "%d:%02d %s", hour_12, time_now.minute, am_pm);
+        }
         
         it.strftime(it.get_width() - 20, 45, id(sensor_font), TextAlign::TOP_RIGHT, "%A, %b %d", time_now);
         
