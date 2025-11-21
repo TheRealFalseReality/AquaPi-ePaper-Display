@@ -12,6 +12,8 @@ substitutions:
   sensor_age_entity: "sensor.my_aquarium_age_entity"
   sensor_analysis_entity: "sensor.my_overall_analysis_entity"
   sensor_water_level_entity: "sensor.my_water_level_entity"
+  sensor_weather_temp_entity: "sensor.my_weather_temperature_entity"
+  sensor_evaluation_entity: "sensor.my_evaluation_entity"
 
   # Sleep
   run_duration: "1min"
@@ -118,6 +120,10 @@ sensor:
     id: sensor_power
     entity_id: "${sensor_power_entity}"
     internal: true
+  - platform: homeassistant
+    id: sensor_weather_temp
+    entity_id: "${sensor_weather_temp_entity}"
+    internal: true
 
 text_sensor:
   - platform: homeassistant
@@ -129,6 +135,9 @@ text_sensor:
   - platform: homeassistant
     id: sensor_water_level
     entity_id: "${sensor_water_level_entity}"
+  - platform: homeassistant
+    id: sensor_evaluation
+    entity_id: "${sensor_evaluation_entity}"
   - platform: template
     name: " Version"
     id: version
@@ -194,27 +203,39 @@ display:
         it.print(230, 300, id(data_font), "WI-FI CONNECTING");
       } else {
         // ========== TOP HEADER ==========
-        it.printf(20, 15, id(data_font), "${aquarium_name}");
+        int x1, y1, w1, h1;  // Declare variables for text bounds calculations
+        
+        std::string eval_str = id(sensor_evaluation).state;
+        bool eval_is_set = (eval_str != "sensor.my_evaluation_entity") && !eval_str.empty() && (eval_str != "unknown") && (eval_str != "unavailable");
+        if (eval_is_set) {
+          it.printf(20, 15, id(data_font), "${aquarium_name} • %s", eval_str.c_str());
+        } else {
+          it.printf(20, 15, id(data_font), "${aquarium_name}");
+        }
 
         std::string age_str = id(sensor_age).state;
         bool age_is_set = (age_str != "sensor.aquarium_age_entity") && !age_str.empty() && (age_str != "unknown") && (age_str != "unavailable");
-        if (age_is_set) {
-          age_str = age_str + " old |";
-          it.printf(22, 45, id(sensor_font), TextAlign::TOP_LEFT, "%s", age_str.c_str());
-        } else {
-          age_str = "Not Set |";
-          it.printf(22, 45, id(sensor_font), TextAlign::TOP_LEFT, "%s", age_str.c_str());
-        }
-        int x1, y1, w1, h1;
-        it.get_text_bounds(22, 45, age_str.c_str(), id(sensor_font), TextAlign::TOP_LEFT, &x1, &y1, &w1, &h1);
-        it.printf(22 + w1 + 10, 45, id(material_sharp_icons_small), TextAlign::TOP_LEFT, "\uf6d6");
         
         std::string water_level_str = id(sensor_water_level).state;
         bool water_level_is_set = (water_level_str != "sensor.water_level_entity") && !water_level_str.empty() && (water_level_str != "unknown") && (water_level_str != "unavailable");
-        if (water_level_is_set) {
-          it.printf(22 + w1 + 40, 45, id(sensor_font), TextAlign::TOP_LEFT, "%s", water_level_str.c_str());
-        } else {
-          it.printf(22 + w1 + 40, 45, id(sensor_font), TextAlign::TOP_LEFT, "Not Set");
+        
+        // Display age and water level if either is set
+        if (age_is_set || water_level_is_set) {
+          int start_x = 22;
+          
+          // Display age if set
+          if (age_is_set) {
+            age_str = age_str + " old •";
+            it.printf(start_x, 45, id(sensor_font), TextAlign::TOP_LEFT, "%s", age_str.c_str());
+            it.get_text_bounds(start_x, 45, age_str.c_str(), id(sensor_font), TextAlign::TOP_LEFT, &x1, &y1, &w1, &h1);
+            start_x = start_x + w1 + 10;
+          }
+          
+          // Display water level if set
+          if (water_level_is_set) {
+            it.printf(start_x, 45, id(material_sharp_icons_small), TextAlign::TOP_LEFT, "\uf6d6");
+            it.printf(start_x + 30, 45, id(sensor_font), TextAlign::TOP_LEFT, "%s", water_level_str.c_str());
+          }
         }
 
         auto time_now = id(homeassistant_time).now();
@@ -224,11 +245,20 @@ display:
         if (hour_12 >= 12) { am_pm = "PM"; }
         if (hour_12 == 0) { hour_12 = 12; }
         if (hour_12 > 12) { hour_12 -= 12; }
-        it.printf(it.get_width() - 20, 15, id(data_font), TextAlign::TOP_RIGHT, "%d:%02d %s", hour_12, time_now.minute, am_pm);
+        
+        // Display weather temperature to the left of time with separator
+        char weather_str[15];
+        bool weather_temp_is_set = !isnan(id(sensor_weather_temp).state);
+        if (weather_temp_is_set) {
+          snprintf(weather_str, sizeof(weather_str), "%.0f° •", id(sensor_weather_temp).state);
+          it.printf(it.get_width() - 20, 15, id(data_font), TextAlign::TOP_RIGHT, "%s %d:%02d %s", weather_str, hour_12, time_now.minute, am_pm);
+        } else {
+          it.printf(it.get_width() - 20, 15, id(data_font), TextAlign::TOP_RIGHT, "%d:%02d %s", hour_12, time_now.minute, am_pm);
+        }
         
         it.strftime(it.get_width() - 20, 45, id(sensor_font), TextAlign::TOP_RIGHT, "%A, %b %d", time_now);
         
-        it.filled_rectangle(0, 80, it.get_width(), 2);
+        it.filled_rectangle(20, 80, it.get_width() - 40, 2);
 
         // ========== SENSOR GRID (3x2 Compact) ==========
         int w = 230, h = 100, r = 10, thickness = 3;
