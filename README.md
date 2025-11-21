@@ -32,6 +32,7 @@ substitutions:
   sensor_analysis_entity: "sensor.my_overall_analysis_entity"
   sensor_water_level_entity: "sensor.my_water_level_entity"
   sensor_weather_temp_entity: "sensor.my_weather_temperature_entity"
+  sensor_evaluation_entity: "sensor.my_evaluation_entity"
 ```
 
 ### Configuring Your Sensors
@@ -54,6 +55,7 @@ substitutions:
   sensor_analysis_entity: "sensor.my_overall_analysis"
   sensor_water_level_entity: "sensor.my_water_level"
   sensor_weather_temp_entity: "sensor.my_weather_temperature"  # Optional weather temperature
+  sensor_evaluation_entity: "sensor.my_evaluation"  # Optional quick evaluation
 ```
 
 **Note:** Any sensor that is not configured (left as default placeholder) will display "Not Set" on the ePaper display instead of a value and unit.
@@ -61,6 +63,10 @@ substitutions:
 ### Weather Temperature Display
 
 The display includes an optional weather temperature sensor that appears to the left of the time in the header with a subtle separator. If the `sensor_weather_temp_entity` is configured with a valid Home Assistant weather temperature sensor, the current temperature will be displayed with the unit of measurement. If not configured or unavailable, the area remains blank to maintain a clean display layout.
+
+### Quick Evaluation Display
+
+The display includes an optional quick evaluation sensor that appears next to the aquarium name with a bullet separator (•). If the `sensor_evaluation_entity` is configured with a valid Home Assistant sensor, a one-word evaluation (e.g., "Excellent", "Good", "Fair") will be displayed. If not configured or unavailable, only the aquarium name is shown.
 
 ## Installation
 

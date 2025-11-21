@@ -13,6 +13,7 @@ substitutions:
   sensor_analysis_entity: "sensor.my_overall_analysis_entity"
   sensor_water_level_entity: "sensor.my_water_level_entity"
   sensor_weather_temp_entity: "sensor.my_weather_temperature_entity"
+  sensor_evaluation_entity: "sensor.my_evaluation_entity"
 
   # Sleep
   run_duration: "1min"
@@ -134,6 +135,9 @@ text_sensor:
   - platform: homeassistant
     id: sensor_water_level
     entity_id: "${sensor_water_level_entity}"
+  - platform: homeassistant
+    id: sensor_evaluation
+    entity_id: "${sensor_evaluation_entity}"
   - platform: template
     name: " Version"
     id: version
@@ -199,7 +203,13 @@ display:
         it.print(230, 300, id(data_font), "WI-FI CONNECTING");
       } else {
         // ========== TOP HEADER ==========
-        it.printf(20, 15, id(data_font), "${aquarium_name}");
+        std::string eval_str = id(sensor_evaluation).state;
+        bool eval_is_set = (eval_str != "sensor.my_evaluation_entity") && !eval_str.empty() && (eval_str != "unknown") && (eval_str != "unavailable");
+        if (eval_is_set) {
+          it.printf(20, 15, id(data_font), "${aquarium_name} • %s", eval_str.c_str());
+        } else {
+          it.printf(20, 15, id(data_font), "${aquarium_name}");
+        }
 
         std::string age_str = id(sensor_age).state;
         bool age_is_set = (age_str != "sensor.aquarium_age_entity") && !age_str.empty() && (age_str != "unknown") && (age_str != "unavailable");
