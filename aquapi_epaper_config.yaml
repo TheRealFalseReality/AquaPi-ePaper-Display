@@ -203,6 +203,8 @@ display:
         it.print(230, 300, id(data_font), "WI-FI CONNECTING");
       } else {
         // ========== TOP HEADER ==========
+        int x1, y1, w1, h1;  // Declare variables for text bounds calculations
+        
         std::string eval_str = id(sensor_evaluation).state;
         bool eval_is_set = (eval_str != "sensor.my_evaluation_entity") && !eval_str.empty() && (eval_str != "unknown") && (eval_str != "unavailable");
         if (eval_is_set) {
@@ -225,7 +227,6 @@ display:
           if (age_is_set) {
             age_str = age_str + " old •";
             it.printf(start_x, 45, id(sensor_font), TextAlign::TOP_LEFT, "%s", age_str.c_str());
-            int x1, y1, w1, h1;
             it.get_text_bounds(start_x, 45, age_str.c_str(), id(sensor_font), TextAlign::TOP_LEFT, &x1, &y1, &w1, &h1);
             start_x = start_x + w1 + 10;
           }
