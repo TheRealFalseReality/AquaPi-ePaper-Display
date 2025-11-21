@@ -231,9 +231,9 @@ display:
         if (hour_12 > 12) { hour_12 -= 12; }
         
         // Display weather temperature to the left of time with separator
-        bool weather_temp_is_set = !isnan(id(sensor_weather_temp).state) && id(sensor_weather_temp).state != 0.0;
+        bool weather_temp_is_set = !isnan(id(sensor_weather_temp).state);
         if (weather_temp_is_set) {
-          char weather_str[50];
+          char weather_str[15];
           snprintf(weather_str, sizeof(weather_str), "%.0f°", id(sensor_weather_temp).state);
           it.printf(it.get_width() - 20, 15, id(data_font), TextAlign::TOP_RIGHT, "%s  |  %d:%02d %s", weather_str, hour_12, time_now.minute, am_pm);
         } else {
