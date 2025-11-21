@@ -213,23 +213,28 @@ display:
 
         std::string age_str = id(sensor_age).state;
         bool age_is_set = (age_str != "sensor.aquarium_age_entity") && !age_str.empty() && (age_str != "unknown") && (age_str != "unavailable");
-        if (age_is_set) {
-          age_str = age_str + " old •";
-          it.printf(22, 45, id(sensor_font), TextAlign::TOP_LEFT, "%s", age_str.c_str());
-        } else {
-          age_str = "Not Set •";
-          it.printf(22, 45, id(sensor_font), TextAlign::TOP_LEFT, "%s", age_str.c_str());
-        }
-        int x1, y1, w1, h1;
-        it.get_text_bounds(22, 45, age_str.c_str(), id(sensor_font), TextAlign::TOP_LEFT, &x1, &y1, &w1, &h1);
-        it.printf(22 + w1 + 10, 45, id(material_sharp_icons_small), TextAlign::TOP_LEFT, "\uf6d6");
         
         std::string water_level_str = id(sensor_water_level).state;
         bool water_level_is_set = (water_level_str != "sensor.water_level_entity") && !water_level_str.empty() && (water_level_str != "unknown") && (water_level_str != "unavailable");
-        if (water_level_is_set) {
-          it.printf(22 + w1 + 40, 45, id(sensor_font), TextAlign::TOP_LEFT, "%s", water_level_str.c_str());
-        } else {
-          it.printf(22 + w1 + 40, 45, id(sensor_font), TextAlign::TOP_LEFT, "Not Set");
+        
+        // Display age and water level if either is set
+        if (age_is_set || water_level_is_set) {
+          int start_x = 22;
+          
+          // Display age if set
+          if (age_is_set) {
+            age_str = age_str + " old •";
+            it.printf(start_x, 45, id(sensor_font), TextAlign::TOP_LEFT, "%s", age_str.c_str());
+            int x1, y1, w1, h1;
+            it.get_text_bounds(start_x, 45, age_str.c_str(), id(sensor_font), TextAlign::TOP_LEFT, &x1, &y1, &w1, &h1);
+            start_x = start_x + w1 + 10;
+          }
+          
+          // Display water level if set
+          if (water_level_is_set) {
+            it.printf(start_x, 45, id(material_sharp_icons_small), TextAlign::TOP_LEFT, "\uf6d6");
+            it.printf(start_x + 30, 45, id(sensor_font), TextAlign::TOP_LEFT, "%s", water_level_str.c_str());
+          }
         }
 
         auto time_now = id(homeassistant_time).now();
