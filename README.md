@@ -1,5 +1,7 @@
 # AquaPi ePaper Display
 
+<img src="/assets/PXL_20251123_184247543.png" alt="display"/>
+
 An ESP32-based ePaper display showing AquaPi & aquarium data from Home Assistant.
 
 This project provides a firmware for ESP32 ePaper displays that shows real-time aquarium sensor data including temperature, pH, salinity, ORP, dissolved oxygen, power consumption, and more.
