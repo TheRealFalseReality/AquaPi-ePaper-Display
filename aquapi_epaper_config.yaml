@@ -210,7 +210,7 @@ display:
         it.printf(it.get_width() / 2, 100, id(material_sharp_icons), TextAlign::TOP_CENTER, "\ue63e");
         it.print(230, 300, id(data_font), "WI-FI DISCONNECTED");
         // Display QR code in bottom right corner when WiFi is disconnected
-        it.image(it.get_width() - 120, it.get_height() - 110, id(qr_code_github));
+        it.image(it.get_width() - 120, it.get_height() - 120, id(qr_code_github));
       } else {
         // ========== TOP HEADER ==========
         int x1, y1, w1, h1;  // Declare variables for text bounds calculations
@@ -394,7 +394,7 @@ display:
         
         // Display QR code in bottom right corner when analysis is not set
         if (!analysis_is_set) {
-          it.image(it.get_width() - 120, it.get_height() - 110, id(qr_code_github));
+          it.image(it.get_width() - 120, it.get_height() - 100, id(qr_code_github));
         }
       }
 
