@@ -70,6 +70,56 @@ The display includes an optional weather temperature sensor that appears to the 
 
 The display includes an optional quick evaluation sensor that appears next to the aquarium name with a bullet separator (•). If the `sensor_evaluation_entity` is configured with a valid Home Assistant sensor, a one-word evaluation (e.g., "Excellent", "Good", "Fair") will be displayed. If not configured or unavailable, only the aquarium name is shown.
 
+## Creating an Aquarium Age Sensor
+
+To display the age of your aquarium (e.g., "2 years, 3 months"), you need to create a custom sensor in Home Assistant. This involves two steps:
+
+### Step 1: Create an Input DateTime Helper
+
+First, create an `input_datetime` helper to store your aquarium's start date:
+
+1. In Home Assistant, go to **Settings** → **Devices & Services** → **Helpers**
+2. Click **+ Create Helper** and select **Date and/or time**
+3. Configure the helper:
+   - **Name**: "Aquarium Start Date" (or your preferred name)
+   - **Icon**: `mdi:calendar` (optional)
+   - Enable **Date** (time is not needed)
+4. Save the helper and set it to your aquarium's start date
+
+This will create an entity like `input_datetime.aquarium_start_date`.
+
+### Step 2: Create a Template Sensor
+
+Next, create a template sensor that calculates and formats the aquarium age. Add the following to your Home Assistant `configuration.yaml` file:
+
+```yaml
+template:
+  - sensor:
+      - name: "Aquarium Age"
+        unique_id: aquarium_age
+        state: >
+          {% set sensor = states('input_datetime.aquarium_start_date') | as_datetime %}
+          {% set now = now() %}
+          {% set nowTime = now.replace(tzinfo=None) %}
+          {% set diff = nowTime - sensor %}
+          {% set years = diff.days // 365 %}
+          {% set remaining_days = diff.days % 365 %}
+          {% set months = remaining_days // 30 %}
+
+          {% if years > 0 %}
+            {{ years }} year{{ 's' if years > 1 else '' }}{% endif %}{% if months > 0 %}{% if years > 0 %}, {% endif %}{{ months }} month{{ 's' if months > 1 else '' }}
+          {% endif %}
+```
+
+**Important**: Replace `aquarium_start_date` with the actual entity ID of your input_datetime helper if you used a different name.
+
+**Note**: This template uses approximate calculations (365 days per year, 30 days per month) which is suitable for display purposes.
+
+After adding this configuration:
+1. Restart Home Assistant to load the new template sensor
+2. The sensor will be created as `sensor.aquarium_age`
+3. Configure your ePaper display to use this sensor by setting `sensor_age_entity: "sensor.aquarium_age"` in your substitutions
+
 ## Installation
 
 You can use the button on our [project page](https://therealfalsereality.github.io/AquaPi-ePaper-Display/) to install the pre-built firmware directly to your device via USB from the browser using ESP Web Tools.
