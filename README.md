@@ -113,6 +113,8 @@ template:
 
 **Important**: Replace `<AQUARIUM-STARTDATE>` with the actual entity ID of your input_datetime helper (e.g., `aquarium_start_date`).
 
+**Note**: This template uses approximate calculations (365 days per year, 30 days per month) which is suitable for display purposes.
+
 After adding this configuration:
 1. Restart Home Assistant to load the new template sensor
 2. The sensor will be created as `sensor.aquarium_age`
