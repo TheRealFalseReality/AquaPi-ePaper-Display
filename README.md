@@ -98,7 +98,7 @@ template:
       - name: "Aquarium Age"
         unique_id: aquarium_age
         state: >
-          {% set sensor = states('input_datetime.<AQUARIUM-STARTDATE>') | as_datetime %}
+          {% set sensor = states('input_datetime.aquarium_start_date') | as_datetime %}
           {% set now = now() %}
           {% set nowTime = now.replace(tzinfo=None) %}
           {% set diff = nowTime - sensor %}
@@ -111,7 +111,7 @@ template:
           {% endif %}
 ```
 
-**Important**: Replace `<AQUARIUM-STARTDATE>` with the actual entity ID of your input_datetime helper (e.g., `aquarium_start_date`).
+**Important**: Replace `aquarium_start_date` with the actual entity ID of your input_datetime helper if you used a different name.
 
 **Note**: This template uses approximate calculations (365 days per year, 30 days per month) which is suitable for display purposes.
 
