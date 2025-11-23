@@ -180,7 +180,7 @@ image:
     id: qr_code_github
     resize: 100x100
     type: BINARY
-    invert_colors: true
+    invert_alpha: true
 
 spi:
   clk_pin: GPIO8
@@ -208,7 +208,7 @@ display:
     lambda: |-
       if (id(wifi_status) == 0) {
         it.printf(it.get_width() / 2, 100, id(material_sharp_icons), TextAlign::TOP_CENTER, "\ue63e");
-        it.print(230, 300, id(data_font), "WI-FI CONNECTING");
+        it.print(230, 300, id(data_font), "WI-FI DISCONNECTED");
         // Display QR code in bottom right corner when WiFi is disconnected
         it.image(it.get_width() - 120, it.get_height() - 120, id(qr_code_github));
       } else {
@@ -349,7 +349,7 @@ display:
         std::string text = id(sensor_analysis).state;
         bool analysis_is_set = (text != "sensor.analysis_entity") && !text.empty() && (text != "unknown") && (text != "unavailable");
         if (!analysis_is_set) {
-          text = "Analysis not configured  Visit github.com/TheRealFalseReality/AquaPi-ePaper-Display/wiki for a guide.";
+          text = "github.com/TheRealFalseReality/AquaPi-ePaper-Display/wiki Visit the Wiki for a guide.";
         }
         
         int max_line_width = 760;
