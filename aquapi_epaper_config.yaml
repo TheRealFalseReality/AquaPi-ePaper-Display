@@ -180,6 +180,7 @@ image:
     id: qr_code_github
     resize: 100x100
     type: BINARY
+    invert_colors: true
 
 spi:
   clk_pin: GPIO8
