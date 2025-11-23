@@ -209,6 +209,7 @@ display:
       if (id(wifi_status) == 0) {
         it.printf(it.get_width() / 2, 100, id(material_sharp_icons), TextAlign::TOP_CENTER, "\ue63e");
         it.print(230, 300, id(data_font), "WI-FI DISCONNECTED");
+        it.print(50, 350, id(sensor_font), "github.com/TheRealFalseReality/AquaPi-ePaper-Display/wiki Visit the Wiki for a guide.");
         // Display QR code in bottom right corner when WiFi is disconnected
         it.image(it.get_width() - 120, it.get_height() - 120, id(qr_code_github));
       } else {
