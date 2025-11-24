@@ -14,6 +14,16 @@ This project provides a firmware for ESP32 ePaper displays that shows real-time 
 - Customizable Home Assistant sensor integration
 - OTA updates support
 
+## AquaPi Home Assistant Integration
+
+This display is designed to work with **AquaPi**, a Home Assistant integration that provides aquarium parameter sensors including temperature, pH, salinity, ORP (Oxidation-Reduction Potential), dissolved oxygen, and more. AquaPi enables you to monitor and automate your aquarium directly through Home Assistant.
+
+**Learn more about AquaPi:**
+- **GitHub Repository**: [https://github.com/TheRealFalseReality/aquapi](https://github.com/TheRealFalseReality/aquapi)
+- **Purchase AquaPi**: [https://www.capitalcityaquatics.com/store/aquapi](https://www.capitalcityaquatics.com/store/aquapi)
+
+The AquaPi integration provides the sensor data that this ePaper display visualizes. Once you have AquaPi set up in Home Assistant, you can configure this display to show your aquarium's real-time parameters.
+
 ## Customizing Sensor Entity IDs
 
 All Home Assistant sensor entity IDs must be configured through substitutions. By default, generic placeholder values are set. Replace these with your actual Home Assistant sensor entity IDs.
