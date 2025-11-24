@@ -24,6 +24,15 @@ This display is designed to work with **AquaPi**, a Home Assistant integration t
 
 The AquaPi integration provides the sensor data that this ePaper display visualizes. Once you have AquaPi set up in Home Assistant, you can configure this display to show your aquarium's real-time parameters.
 
+## Aquarium AI Integration
+
+For intelligent aquarium analysis and evaluation, this display also supports **Aquarium AI**, a Home Assistant integration that uses artificial intelligence to analyze your aquarium parameters and provide quick evaluations and overall analysis insights.
+
+**Learn more about Aquarium AI:**
+- **GitHub Repository**: [https://github.com/TheRealFalseReality/Aquarium-AI-Homeassistant](https://github.com/TheRealFalseReality/Aquarium-AI-Homeassistant)
+
+Aquarium AI provides the analysis sensors (`sensor_analysis_entity` and `sensor_evaluation_entity`) that offer AI-powered insights into your aquarium's health and status, displayed alongside the parameter readings on this ePaper display.
+
 ## Customizing Sensor Entity IDs
 
 All Home Assistant sensor entity IDs must be configured through substitutions. By default, generic placeholder values are set. Replace these with your actual Home Assistant sensor entity IDs.
