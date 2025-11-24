@@ -14,6 +14,25 @@ This project provides a firmware for ESP32 ePaper displays that shows real-time 
 - Customizable Home Assistant sensor integration
 - OTA updates support
 
+## AquaPi Home Assistant Integration
+
+This display is designed to work with **AquaPi**, a Home Assistant integration that provides aquarium parameter sensors including temperature, pH, salinity, ORP (Oxidation-Reduction Potential), dissolved oxygen, and more. AquaPi enables you to monitor and automate your aquarium directly through Home Assistant.
+
+**Learn more about AquaPi:**
+- **GitHub Repository**: [https://github.com/TheRealFalseReality/aquapi](https://github.com/TheRealFalseReality/aquapi)
+- **Purchase AquaPi**: [https://www.capitalcityaquatics.com/store/aquapi](https://www.capitalcityaquatics.com/store/aquapi)
+
+The AquaPi integration provides the sensor data that this ePaper display visualizes. Once you have AquaPi set up in Home Assistant, you can configure this display to show your aquarium's real-time parameters.
+
+## Aquarium AI Integration
+
+For intelligent aquarium analysis and evaluation, this display also supports **Aquarium AI**, a Home Assistant integration that uses artificial intelligence to analyze your aquarium parameters and provide quick evaluations and overall analysis insights.
+
+**Learn more about Aquarium AI:**
+- **GitHub Repository**: [https://github.com/TheRealFalseReality/Aquarium-AI-Homeassistant](https://github.com/TheRealFalseReality/Aquarium-AI-Homeassistant)
+
+Aquarium AI provides the analysis sensors (`sensor_analysis_entity` and `sensor_evaluation_entity`) that offer AI-powered insights into your aquarium's health and status, displayed alongside the parameter readings on this ePaper display.
+
 ## Customizing Sensor Entity IDs
 
 All Home Assistant sensor entity IDs must be configured through substitutions. By default, generic placeholder values are set. Replace these with your actual Home Assistant sensor entity IDs.
