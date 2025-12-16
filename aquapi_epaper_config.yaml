@@ -124,7 +124,9 @@ sensor:
     id: sensor_weather_temp
     entity_id: "${sensor_weather_temp_entity}"
     internal: true
-  # Battery voltage monitoring (XIAO ESP32-C3 has built-in voltage divider)
+  # Battery voltage monitoring (XIAO ESP32-C3 battery circuit)
+  # The hardware has a voltage divider that halves the battery voltage (2:1 ratio)
+  # We multiply by 2.0 to compensate and get the actual battery voltage
   - platform: adc
     pin: GPIO0
     id: battery_voltage
@@ -132,7 +134,7 @@ sensor:
     attenuation: auto
     update_interval: 60s
     filters:
-      - multiply: 2.0  # Voltage divider compensation (2:1 ratio)
+      - multiply: 2.0  # Compensate for 2:1 voltage divider (voltage is halved by hardware)
     accuracy_decimals: 2
     internal: true
   # Battery percentage calculation
@@ -266,19 +268,20 @@ display:
         int start_x = 22;
         const int ICON_WIDTH = 30;
         const int BULLET_SPACING = 25;
+        bool needs_separator = age_is_set || water_level_is_set;
         
         // Display battery indicator first (icon + percentage)
         float battery_pct = id(battery_percentage).state;
         if (!isnan(battery_pct)) {
           char battery_str[20];
-          if (age_is_set || water_level_is_set) {
+          if (needs_separator) {
             snprintf(battery_str, sizeof(battery_str), "%.0f%% •", battery_pct);
           } else {
             snprintf(battery_str, sizeof(battery_str), "%.0f%%", battery_pct);
           }
           it.printf(start_x, 45, id(material_sharp_icons_small), TextAlign::TOP_LEFT, "\ue1a4");
           it.printf(start_x + ICON_WIDTH, 45, id(sensor_font), TextAlign::TOP_LEFT, "%s", battery_str);
-          if (age_is_set || water_level_is_set) {
+          if (needs_separator) {
             it.get_text_bounds(start_x, 45, battery_str, id(sensor_font), TextAlign::TOP_LEFT, &x1, &y1, &w1, &h1);
             start_x = start_x + ICON_WIDTH + w1 + BULLET_SPACING;
           }
