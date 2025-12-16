@@ -146,16 +146,17 @@ sensor:
     accuracy_decimals: 0
     update_interval: 60s
     lambda: |-
-      // LiPo battery voltage range: 3.0V (empty) to 4.2V (full)
+      // LiPo battery voltage range: 2.5V (empty) to 4.2V (full)
+      // Adjusted minimum to 2.5V to account for voltage variations
       float voltage = id(battery_voltage).state;
       if (isnan(voltage)) {
         return NAN;
       }
       // Clamp voltage between min and max
       if (voltage > 4.2) voltage = 4.2;
-      if (voltage < 3.0) voltage = 3.0;
+      if (voltage < 2.5) voltage = 2.5;
       // Calculate percentage
-      float percentage = ((voltage - 3.0) / (4.2 - 3.0)) * 100.0;
+      float percentage = ((voltage - 2.5) / (4.2 - 2.5)) * 100.0;
       return percentage;
 
 text_sensor:
@@ -240,6 +241,20 @@ display:
     model: 7.50inv2
     update_interval: 50s
     lambda: |-
+      // ========== BATTERY INDICATOR (Bottom Left - Persistent) ==========
+      float battery_pct = id(battery_percentage).state;
+      float battery_volt = id(battery_voltage).state;
+      if (!isnan(battery_volt)) {
+        char battery_str[30];
+        if (!isnan(battery_pct) && battery_pct >= 0) {
+          snprintf(battery_str, sizeof(battery_str), "%.0f%%", battery_pct);
+        } else {
+          snprintf(battery_str, sizeof(battery_str), "%.2fV", battery_volt);
+        }
+        it.printf(20, it.get_height() - 30, id(material_sharp_icons_small), TextAlign::BOTTOM_LEFT, "\ue1a4");
+        it.printf(50, it.get_height() - 30, id(sensor_font), TextAlign::BOTTOM_LEFT, "%s", battery_str);
+      }
+      
       if (id(wifi_status) == 0) {
         it.printf(it.get_width() / 2, 100, id(material_sharp_icons), TextAlign::TOP_CENTER, "\ue63e");
         it.print(230, 300, id(data_font), "WI-FI DISCONNECTED");
@@ -265,29 +280,10 @@ display:
         bool water_level_is_set = (water_level_str != "sensor.water_level_entity") && !water_level_str.empty() && (water_level_str != "unknown") && (water_level_str != "unavailable");
         
         // Display age and water level if either is set
-        int start_x = 22;
-        const int ICON_WIDTH = 30;
-        const int BULLET_SPACING = 25;
-        bool needs_separator = age_is_set || water_level_is_set;
-        
-        // Display battery indicator first (icon + percentage)
-        float battery_pct = id(battery_percentage).state;
-        if (!isnan(battery_pct)) {
-          char battery_str[20];
-          if (needs_separator) {
-            snprintf(battery_str, sizeof(battery_str), "%.0f%% •", battery_pct);
-          } else {
-            snprintf(battery_str, sizeof(battery_str), "%.0f%%", battery_pct);
-          }
-          it.printf(start_x, 45, id(material_sharp_icons_small), TextAlign::TOP_LEFT, "\ue1a4");
-          it.printf(start_x + ICON_WIDTH, 45, id(sensor_font), TextAlign::TOP_LEFT, "%s", battery_str);
-          if (needs_separator) {
-            it.get_text_bounds(start_x, 45, battery_str, id(sensor_font), TextAlign::TOP_LEFT, &x1, &y1, &w1, &h1);
-            start_x = start_x + ICON_WIDTH + w1 + BULLET_SPACING;
-          }
-        }
-        
         if (age_is_set || water_level_is_set) {
+          int start_x = 22;
+          const int ICON_WIDTH = 30;
+          
           // Display age if set
           if (age_is_set) {
             age_str = age_str + " old •";
