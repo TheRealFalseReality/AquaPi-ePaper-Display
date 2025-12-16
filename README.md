@@ -11,6 +11,7 @@ This project provides a firmware for ESP32 ePaper displays that shows real-time 
 - Real-time display of aquarium sensor data
 - 7.5" ePaper display support
 - WiFi connectivity with deep sleep for power efficiency
+- **Battery level indicator** - displays battery percentage when running on battery power
 - Customizable Home Assistant sensor integration
 - OTA updates support
 
@@ -88,6 +89,19 @@ The display includes an optional weather temperature sensor that appears to the 
 ### Quick Evaluation Display
 
 The display includes an optional quick evaluation sensor that appears next to the aquarium name with a bullet separator (•). If the `sensor_evaluation_entity` is configured with a valid Home Assistant sensor, a one-word evaluation (e.g., "Excellent", "Good", "Fair") will be displayed. If not configured or unavailable, only the aquarium name is shown.
+
+### Battery Indicator
+
+The display includes a built-in battery level indicator that shows the battery icon and percentage in the header section. This feature is automatically enabled when the device is running on battery power (XIAO ESP32-C3 with built-in battery charging circuit).
+
+**Battery Features:**
+- Displays battery icon (Material Symbols battery icon)
+- Shows battery percentage (0-100%)
+- Automatically monitors battery voltage via ADC on GPIO0
+- Battery percentage is calculated based on LiPo voltage range (3.0V - 4.2V)
+- Updates every 60 seconds to conserve power
+
+The battery indicator appears in the header, positioned to the left with other status information like aquarium age and water level. When the battery is not connected or the device is powered via USB only, the battery indicator will show if the voltage reading is available.
 
 ## Creating an Aquarium Age Sensor
 

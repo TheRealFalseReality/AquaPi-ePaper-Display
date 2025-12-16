@@ -25,7 +25,7 @@ substitutions:
   comment: "Firmware for ESP32 ePaper display showing AquaPi & aquarium data"
   project_name: "TheRealFalseReality.AquaPi-ePaper-Display"
   import: "true"
-  app_version: "0.0.9"
+  app_version: "0.1.0"
 
 dashboard_import:
   package_import_url: github://TheRealFalseReality/AquaPi-ePaper-Display/aquapi_epaper_config.yaml@main
@@ -124,6 +124,37 @@ sensor:
     id: sensor_weather_temp
     entity_id: "${sensor_weather_temp_entity}"
     internal: true
+  # Battery voltage monitoring (XIAO ESP32-C3 has built-in voltage divider)
+  - platform: adc
+    pin: GPIO0
+    id: battery_voltage
+    name: "Battery Voltage"
+    attenuation: auto
+    update_interval: 60s
+    filters:
+      - multiply: 2.0  # Voltage divider compensation (2:1 ratio)
+    accuracy_decimals: 2
+    internal: true
+  # Battery percentage calculation
+  - platform: template
+    name: "Battery Percentage"
+    id: battery_percentage
+    unit_of_measurement: "%"
+    device_class: battery
+    accuracy_decimals: 0
+    update_interval: 60s
+    lambda: |-
+      // LiPo battery voltage range: 3.0V (empty) to 4.2V (full)
+      float voltage = id(battery_voltage).state;
+      if (isnan(voltage)) {
+        return NAN;
+      }
+      // Clamp voltage between min and max
+      if (voltage > 4.2) voltage = 4.2;
+      if (voltage < 3.0) voltage = 3.0;
+      // Calculate percentage
+      float percentage = ((voltage - 3.0) / (4.2 - 3.0)) * 100.0;
+      return percentage;
 
 text_sensor:
   - platform: homeassistant
@@ -169,6 +200,7 @@ font:
       - "\uf870"  # do: "do" icon
       - "\uf6d6"  # water_level icon
       - "\ue63e"  # wifi: wifi
+      - "\ue1a4"  # battery: battery_std
 
   - file: 'fonts/MaterialSymbolsSharp-VariableFont_FILL,GRAD,opsz,wght.ttf'
     id: material_sharp_icons_small
@@ -234,6 +266,17 @@ display:
         if (age_is_set || water_level_is_set) {
           int start_x = 22;
           
+          // Display battery indicator first (icon + percentage)
+          float battery_pct = id(battery_percentage).state;
+          if (!isnan(battery_pct)) {
+            char battery_str[10];
+            snprintf(battery_str, sizeof(battery_str), "%.0f%%", battery_pct);
+            it.printf(start_x, 45, id(material_sharp_icons_small), TextAlign::TOP_LEFT, "\ue1a4");
+            it.printf(start_x + 30, 45, id(sensor_font), TextAlign::TOP_LEFT, "%s •", battery_str);
+            it.get_text_bounds(start_x, 45, battery_str, id(sensor_font), TextAlign::TOP_LEFT, &x1, &y1, &w1, &h1);
+            start_x = start_x + 30 + w1 + 25;  // Icon width + text width + bullet + spacing
+          }
+          
           // Display age if set
           if (age_is_set) {
             age_str = age_str + " old •";
@@ -246,6 +289,15 @@ display:
           if (water_level_is_set) {
             it.printf(start_x, 45, id(material_sharp_icons_small), TextAlign::TOP_LEFT, "\uf6d6");
             it.printf(start_x + 30, 45, id(sensor_font), TextAlign::TOP_LEFT, "%s", water_level_str.c_str());
+          }
+        } else {
+          // If age/water level not set, show battery alone
+          float battery_pct = id(battery_percentage).state;
+          if (!isnan(battery_pct)) {
+            char battery_str[10];
+            snprintf(battery_str, sizeof(battery_str), "%.0f%%", battery_pct);
+            it.printf(22, 45, id(material_sharp_icons_small), TextAlign::TOP_LEFT, "\ue1a4");
+            it.printf(52, 45, id(sensor_font), TextAlign::TOP_LEFT, "%s", battery_str);
           }
         }
 
